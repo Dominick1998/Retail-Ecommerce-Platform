@@ -88,3 +88,28 @@ The Retail E-commerce Platform is a full-stack web application simulating a reta
 
 ---
 
+## Usage
+
+- Default admin credentials for testing:
+  - **Username**: `admin`
+  - **Password**: `admin123`
+- Refer to the `docs/user-guide.md` for detailed instructions.
+
+---
+
+## Contributing
+
+Contributions are welcome! Please adhere to the following guidelines:
+- Fork the repository.
+- Create a feature branch (`git checkout -b feature/your-feature`).
+- Commit your changes (`git commit -m 'Add your feature'`).
+- Push to the branch (`git push origin feature/your-feature`).
+- Open a pull request.
+
+---
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
