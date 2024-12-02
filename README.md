@@ -18,3 +18,73 @@ The Retail E-commerce Platform is a full-stack web application simulating a reta
 
 ---
 
+## Technologies Used
+
+### Frontend:
+- Angular
+- LESS/SCSS for advanced styling
+- TypeScript and JavaScript
+
+### Backend:
+- Java
+- Groovy
+- IBM WebSphere
+
+### Database:
+- MongoDB
+
+### Cloud Services:
+- IBM Cloud
+
+### Performance & Analytics:
+- Akamai mPulse
+- IBM Cognos
+
+### Security:
+- OneTrust
+
+---
+
+## Installation Instructions
+
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/Dominick1998/Retail-Ecommerce-Platform.git
+   cd Retail-Ecommerce-Platform
+   ```
+
+2. **Set Up Frontend:**
+   ```bash
+   cd frontend
+   npm install
+   ```
+
+3. **Set Up Backend:**
+   ```bash
+   cd ../backend
+   ./gradlew build
+   ```
+
+4. **Database Setup:**
+   - Install and start MongoDB.
+   - Use the provided scripts in the `database` folder to import initial data.
+
+5. **Cloud Configuration:**
+   - Follow the instructions in `docs/cloud-setup.md` for IBM Cloud integration.
+
+6. **Start the Application:**
+   - **Backend**:
+     ```bash
+     ./gradlew bootRun
+     ```
+   - **Frontend**:
+     ```bash
+     cd ../frontend
+     ng serve
+     ```
+
+7. **Access the Application:**
+   - Open your browser and navigate to `http://localhost:4200`.
+
+---
+
