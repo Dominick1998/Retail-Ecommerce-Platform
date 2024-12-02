@@ -1,0 +1,25 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Angular
+.angular/
+dist/
+coverage/
+*.log
+
+# Java (Backend)
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.iml
+*.log
+
+# Gradle
+.gradle/
+build/
+out/
