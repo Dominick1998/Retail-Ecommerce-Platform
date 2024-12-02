@@ -23,3 +23,39 @@ target/
 .gradle/
 build/
 out/
+
+# MongoDB
+*.lock
+*.log
+dump/
+
+# IDE Directories
+/.idea/
+/.vscode/
+*.iml
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
+# IBM WebSphere
+*.ear
+*.war
+
+# Akamai mPulse
+# Include specific sensitive files related to your monitoring setup if needed.
+
+# Generated Files
+*.gz
+*.map
+*.log
+
+# Miscellaneous
+*.bak
+*.swp
+*~
