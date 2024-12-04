@@ -1,3 +1,5 @@
+// REST API controller for managing products.
+
 package com.example.ecommerce.controller;
 
 import com.example.ecommerce.model.Product;
