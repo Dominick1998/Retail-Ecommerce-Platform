@@ -1,25 +1,40 @@
+// Apply necessary plugins for the project
 plugins {
+    // The Java plugin provides tasks for compiling Java source code and running Java applications
     id 'java'
+    // The Groovy plugin enables Groovy language support
     id 'groovy'
+    // The Spring Boot plugin provides tasks for building Spring Boot applications
     id 'org.springframework.boot' version '3.1.0'
+    // The Spring Dependency Management plugin simplifies dependency version management for Spring projects
     id 'io.spring.dependency-management' version '1.1.0'
 }
 
-group = 'com.example'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
+// Define the group and version for the project, used for dependency resolution
+group = 'com.example' // The group ID of the project, typically a reversed domain name
+version = '0.0.1-SNAPSHOT' // The current version of the application, marked as a snapshot for ongoing development
 
+// Specify the Java version compatibility for compiling the code
+sourceCompatibility = '17' // Ensures the code is compatible with Java 17
+
+// Configure repositories to resolve project dependencies
 repositories {
-    mavenCentral()
+    mavenCentral() // Use Maven Central repository for dependency resolution
 }
 
+// Define the project dependencies
 dependencies {
+    // Include Spring Boot's web starter for building RESTful web services and applications
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    // Include Spring Boot's MongoDB starter for data persistence and MongoDB integration
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    // Include the Groovy library for Groovy language support
     implementation 'org.codehaus.groovy:groovy-all:3.0.10'
+    // Include Spring Boot's test starter for unit and integration testing
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
+// Configure the test task to use JUnit Platform, enabling JUnit 5 tests
 test {
     useJUnitPlatform()
 }
