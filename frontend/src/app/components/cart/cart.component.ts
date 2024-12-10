@@ -27,4 +27,12 @@ export class CartComponent implements OnInit {
       this.loadCart();
     });
   }
+
+  checkout() {
+  this.http.post(`http://localhost:8080/api/cart/${this.userId}/checkout`, {}).subscribe(() => {
+    alert('Checkout successful!');
+    this.loadCart();
+  });
+}
+
 }
