@@ -3,5 +3,6 @@
   <li *ngFor="let item of cart.items">
     Product ID: {{ item.productId }} - Quantity: {{ item.quantity }}
     <button (click)="removeItem(item.productId)">Remove</button>
+    <button (click)="checkout()">Checkout</button>
   </li>
 </ul>
