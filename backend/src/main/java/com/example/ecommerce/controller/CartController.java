@@ -32,4 +32,12 @@ public class CartController {
         cart.getItems().removeIf(item -> item.getProductId().equals(productId));
         return cartRepository.save(cart);
     }
+
+    @PostMapping("/{userId}/checkout")
+public String checkout(@PathVariable String userId) {
+    Cart cart = cartRepository.findByUserId(userId).orElseThrow(() -> new RuntimeException("Cart not found"));
+    // Process checkout (e.g., save to orders collection)
+    cartRepository.delete(cart);
+    return "Checkout successful!";
+    }
 }
