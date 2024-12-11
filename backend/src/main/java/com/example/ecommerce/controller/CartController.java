@@ -21,11 +21,24 @@ public class CartController {
      @PostMapping("/{userId}/checkout")
 public String checkout(@PathVariable String userId) {
     Cart cart = cartRepository.findByUserId(userId).orElseThrow(() -> new RuntimeException("Cart not found"));
-    // Process checkout (e.g., save to orders collection)
+    
+    // Create an Order from the cart
+    Order order = new Order();
+    order.setUserId(userId);
+    order.setOrderDate(new Date());
+    order.setItems(cart.getItems().stream().map(cartItem -> {
+        Order.OrderItem orderItem = new Order.OrderItem();
+        orderItem.setProductId(cartItem.getProductId());
+        orderItem.setQuantity(cartItem.getQuantity());
+        // Add price lookup from the product repository if necessary
+        orderItem.setPrice(19.99); // Example price
+        return orderItem;
+    }).toList());
+
+    orderRepository.save(order);
     cartRepository.delete(cart);
     return "Checkout successful!";
-
-    }
+}
 
     @DeleteMapping("/{userId}/{productId}")
     public Cart removeItemFromCart(@PathVariable String userId, @PathVariable String productId) {
