@@ -1,4 +1,9 @@
 <h2>Products</h2>
+<label for="category">Filter by Category:</label>
+<select id="category" [(ngModel)]="selectedCategory" (change)="filterByCategory()">
+  <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+</select>
+
 <ul>
   <li *ngFor="let product of products">
     {{ product.name }} - ${{ product.price }}
