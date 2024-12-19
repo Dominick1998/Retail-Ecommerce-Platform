@@ -42,4 +42,10 @@ public class ProductController {
     public void deleteProduct(@PathVariable String id) {
         productRepository.deleteById(id);
     }
+
+    @GetMapping("/category/{category}")
+public List<Product> getProductsByCategory(@PathVariable String category) {
+    return productRepository.findByCategory(category);
+}
+
 }
