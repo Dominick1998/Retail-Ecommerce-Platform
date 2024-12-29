@@ -32,6 +32,8 @@ dependencies {
     implementation 'org.codehaus.groovy:groovy-all:3.0.10'
     // Include Spring Boot's test starter for unit and integration testing
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    //
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 }
 
 // Configure the test task to use JUnit Platform, enabling JUnit 5 tests
