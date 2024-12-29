@@ -1,0 +1,7 @@
+<h2>Analytics Dashboard</h2>
+<p><strong>Total Sales:</strong> ${{ analytics.totalSales }}</p>
+<p><strong>Total Orders:</strong> {{ analytics.totalOrders }}</p>
+<h3>Top Products:</h3>
+<ul>
+  <li *ngFor="let product of analytics.topProducts">{{ product }}</li>
+</ul>
