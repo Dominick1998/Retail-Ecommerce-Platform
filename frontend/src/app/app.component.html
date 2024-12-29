@@ -1,2 +1,8 @@
 <h1>Welcome to the Retail E-commerce Platform</h1>
 <router-outlet></router-outlet>
+
+<nav>
+  <a routerLink="/products">Products</a>
+  <a routerLink="/orders" *ngIf="isAdmin()">Admin Dashboard</a>
+  <a routerLink="/profile">Profile</a>
+</nav>
