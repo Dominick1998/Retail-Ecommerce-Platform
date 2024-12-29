@@ -10,6 +10,7 @@ public class User {
     private String username;
     private String password;
     private String role; // "ADMIN" or "USER"
+    private List<String> roles;
 
     // Getters and Setters
     public String getId() { return id; }
@@ -20,4 +21,6 @@ public class User {
     public void setPassword(String password) { this.password = password; }
     public String getRole() { return role; }
     public void setRole(String role) { this.role = role; }
+    public List<String> getRoles() { return roles; }
+    public void setRoles(List<String> roles) { this.roles = roles; }
 }
