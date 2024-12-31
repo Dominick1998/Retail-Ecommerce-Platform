@@ -15,6 +15,11 @@ The Retail E-commerce Platform is a full-stack web application simulating a reta
 - **Performance Monitoring**: Integrated with Akamai mPulse for application performance analytics.
 - **Data Analytics**: Generates business intelligence reports using IBM Cognos.
 - **Security Compliance**: Ensures user data security and privacy using OneTrust for cookie compliance.
+- Product listing with category filtering and pagination.
+- Shopping cart and checkout system.
+- Role-based access control (Admin and User roles).
+- Analytics dashboard for admin users.
+- Performance monitoring with Spring Actuator.
 
 ---
 
@@ -47,7 +52,7 @@ The Retail E-commerce Platform is a full-stack web application simulating a reta
 
 ## Installation Instructions
 
-1. **Clone the Repository:**
+1. **Clone the repository**:
    ```bash
    git clone https://github.com/Dominick1998/Retail-Ecommerce-Platform.git
    cd Retail-Ecommerce-Platform
