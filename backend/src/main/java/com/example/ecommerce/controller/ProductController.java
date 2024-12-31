@@ -48,4 +48,9 @@ public List<Product> getProductsByCategory(@PathVariable String category) {
     return productRepository.findByCategory(category);
 }
 
+    @GetMapping
+public Page<Product> getProducts(Pageable pageable) {
+    return productRepository.findAll(pageable);
+}
+
 }
