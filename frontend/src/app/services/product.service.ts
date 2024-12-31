@@ -37,4 +37,8 @@ export class ProductService {
   return this.http.get<Product[]>(`${this.apiUrl}/category/${category}`);
 }
 
+  getPaginatedProducts(page: number, size: number): Observable<any> {
+  return this.http.get(`${this.apiUrl}?page=${page}&size=${size}`);
+}
+
 }
