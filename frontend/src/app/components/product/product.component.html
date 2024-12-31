@@ -9,3 +9,9 @@
     {{ product.name }} - ${{ product.price }}
   </li>
 </ul>
+
+<div class="pagination">
+  <button (click)="previousPage()" [disabled]="currentPage === 0">Previous</button>
+  <span>Page {{ currentPage + 1 }}</span>
+  <button (click)="nextPage()">Next</button>
+</div>
