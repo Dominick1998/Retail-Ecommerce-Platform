@@ -17,11 +17,24 @@ export class ProductComponent implements OnInit {
     this.loadProducts();
   }
 
-  loadProducts() {
-    this.productService.getProducts().subscribe(data => {
-      this.products = data;
-    });
-  }
+ currentPage: number = 0;
+pageSize: number = 10;
+
+loadProducts() {
+  this.productService.getPaginatedProducts(this.currentPage, this.pageSize).subscribe(data => {
+    this.products = data.content;
+  });
+}
+
+nextPage() {
+  this.currentPage++;
+  this.loadProducts();
+}
+
+previousPage() {
+  this.currentPage--;
+  this.loadProducts();
+}
 
   filterByCategory() {
     if (this.selectedCategory) {
