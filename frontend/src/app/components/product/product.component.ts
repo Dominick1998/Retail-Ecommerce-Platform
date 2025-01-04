@@ -8,7 +8,7 @@ import { ProductService } from '../../services/product.service';
 })
 export class ProductComponent implements OnInit {
   products = [];
-  categories: string[] = ['Electronics', 'Books', 'Clothing', 'Home'];
+  categories: string[] = ['Electronics', 'Books', 'Clothing', 'Home']; // Example categories
   selectedCategory: string = '';
   currentPage: number = 0;
   pageSize: number = 10;
@@ -31,7 +31,7 @@ export class ProductComponent implements OnInit {
         this.products = data;
       });
     } else {
-      this.loadProducts();
+      this.loadProducts(); // Reload all products if no category is selected
     }
   }
 
