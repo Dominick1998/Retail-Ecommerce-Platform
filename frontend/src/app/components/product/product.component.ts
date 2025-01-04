@@ -8,8 +8,10 @@ import { ProductService } from '../../services/product.service';
 })
 export class ProductComponent implements OnInit {
   products = [];
-  categories: string[] = ['Electronics', 'Books', 'Clothing', 'Home']; // Example categories
+  categories: string[] = ['Electronics', 'Books', 'Clothing', 'Home'];
   selectedCategory: string = '';
+  currentPage: number = 0;
+  pageSize: number = 10;
 
   constructor(private productService: ProductService) {}
 
@@ -17,24 +19,11 @@ export class ProductComponent implements OnInit {
     this.loadProducts();
   }
 
- currentPage: number = 0;
-pageSize: number = 10;
-
-loadProducts() {
-  this.productService.getPaginatedProducts(this.currentPage, this.pageSize).subscribe(data => {
-    this.products = data.content;
-  });
-}
-
-nextPage() {
-  this.currentPage++;
-  this.loadProducts();
-}
-
-previousPage() {
-  this.currentPage--;
-  this.loadProducts();
-}
+  loadProducts() {
+    this.productService.getPaginatedProducts(this.currentPage, this.pageSize).subscribe(data => {
+      this.products = data.content;
+    });
+  }
 
   filterByCategory() {
     if (this.selectedCategory) {
@@ -42,7 +31,19 @@ previousPage() {
         this.products = data;
       });
     } else {
-      this.loadProducts(); // Load all products if no category is selected
+      this.loadProducts();
+    }
+  }
+
+  nextPage() {
+    this.currentPage++;
+    this.loadProducts();
+  }
+
+  previousPage() {
+    if (this.currentPage > 0) {
+      this.currentPage--;
+      this.loadProducts();
     }
   }
 }
