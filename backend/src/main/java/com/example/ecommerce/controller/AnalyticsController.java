@@ -11,9 +11,9 @@ public class AnalyticsController {
     public Map<String, Object> getAnalytics() {
         // Simulated analytics data
         Map<String, Object> analytics = new HashMap<>();
-        analytics.put("totalSales", 5000);
-        analytics.put("totalOrders", 120);
-        analytics.put("topProducts", List.of("Product A", "Product B", "Product C"));
+        analytics.put("totalSales", 12000.50);
+        analytics.put("totalOrders", 300);
+        analytics.put("topCategories", List.of("Electronics", "Books", "Clothing"));
         return analytics;
     }
 }
