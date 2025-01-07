@@ -1,10 +1,10 @@
-<h2>Your Orders</h2>
+<h2>Your Order History</h2>
 <ul>
   <li *ngFor="let order of orders">
     <strong>Order Date:</strong> {{ order.orderDate | date }}
     <ul>
       <li *ngFor="let item of order.items">
-        Product ID: {{ item.productId }}, Quantity: {{ item.quantity }}, Price: ${{ item.price }}
+        {{ item.productId }} - Quantity: {{ item.quantity }} - ${{ item.price }}
       </li>
     </ul>
   </li>
