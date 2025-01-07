@@ -14,7 +14,7 @@ public class OrderController {
     private OrderRepository orderRepository;
 
     @GetMapping("/{userId}")
-    public List<Order> getOrders(@PathVariable String userId) {
+    public List<Order> getOrdersByUser(@PathVariable String userId) {
         return orderRepository.findByUserId(userId);
     }
 }
