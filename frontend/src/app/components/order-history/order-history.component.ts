@@ -17,7 +17,7 @@ export class OrderHistoryComponent implements OnInit {
   }
 
   loadOrders() {
-    this.http.get(`http://localhost:8080/api/orders/${this.userId}`).subscribe((data: any) => {
+    this.http.get(`http://localhost:8080/api/orders/${this.userId}`).subscribe(data => {
       this.orders = data;
     });
   }
