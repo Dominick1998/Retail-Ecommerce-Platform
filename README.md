@@ -20,6 +20,10 @@ The Retail E-commerce Platform is a full-stack web application simulating a reta
 - Role-based access control (Admin and User roles).
 - Analytics dashboard for admin users.
 - Performance monitoring with Spring Actuator.
+- Product Search
+- Category Filtering
+- Admin Dashboard with Product Management
+- User Order History
 
 ---
 
@@ -99,6 +103,10 @@ The Retail E-commerce Platform is a full-stack web application simulating a reta
   - **Username**: `admin`
   - **Password**: `admin123`
 - Refer to the `docs/user-guide.md` for detailed instructions.
+
+## Admin Dashboard
+- **View Analytics**: Displays total sales, orders, and top categories.
+- **Manage Products**: Add, edit, or delete products.
 
 ---
 
