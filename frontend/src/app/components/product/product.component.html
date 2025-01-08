@@ -1,6 +1,11 @@
 <!--html for productcomponent-->
 
 <h2>Products</h2>
+
+<label for="search">Search Products:</label>
+<input id="search" [(ngModel)]="searchQuery" placeholder="Search by name" />
+<button (click)="searchProducts()">Search</button>
+
 <label for="category">Filter by Category:</label>
 <select id="category" [(ngModel)]="selectedCategory" (change)="filterByCategory()">
   <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
