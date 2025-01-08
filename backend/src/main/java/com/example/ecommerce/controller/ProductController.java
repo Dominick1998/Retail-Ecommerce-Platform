@@ -60,4 +60,10 @@ public class ProductController {
     public List<Product> getProductsByCategory(@PathVariable String category) {
         return productRepository.findByCategory(category);
     }
+
+    @GetMapping("/search")
+public List<Product> searchProducts(@RequestParam String query) {
+    return productRepository.findByNameContainingIgnoreCase(query);
+}
+
 }
