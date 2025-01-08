@@ -7,3 +7,14 @@
     <li *ngFor="let category of analytics.topCategories">{{ category }}</li>
   </ul>
 </div>
+
+<h3>Manage Products</h3>
+<ul>
+  <li *ngFor="let product of products">
+    {{ product.name }} - ${{ product.price }}
+    <button (click)="editProduct(product)">Edit</button>
+    <button (click)="deleteProduct(product.id)">Delete</button>
+  </li>
+</ul>
+<button (click)="addProduct()">Add New Product</button>
+
