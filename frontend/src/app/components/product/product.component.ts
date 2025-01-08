@@ -46,4 +46,17 @@ export class ProductComponent implements OnInit {
       this.loadProducts();
     }
   }
+
+  searchQuery: string = '';
+
+searchProducts() {
+  if (this.searchQuery) {
+    this.productService.searchProducts(this.searchQuery).subscribe(data => {
+      this.products = data;
+    });
+  } else {
+    this.loadProducts(); // Reload all products if search query is empty
+  }
+}
+
 }
