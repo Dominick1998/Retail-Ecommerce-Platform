@@ -1,0 +1,13 @@
+<h2>Your Profile</h2>
+<form (ngSubmit)="saveProfile()">
+  <label for="name">Name</label>
+  <input id="name" [(ngModel)]="user.name" name="name" required />
+
+  <label for="email">Email</label>
+  <input id="email" [(ngModel)]="user.email" name="email" required />
+
+  <label for="address">Address</label>
+  <textarea id="address" [(ngModel)]="user.address" name="address" required></textarea>
+
+  <button type="submit">Save</button>
+</form>
