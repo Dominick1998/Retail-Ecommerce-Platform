@@ -1,4 +1,5 @@
 //Integrated Email Notifications
+//Improved checkoout Method
 
 package com.example.ecommerce.controller;
 
