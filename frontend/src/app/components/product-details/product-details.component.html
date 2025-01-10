@@ -1,0 +1,14 @@
+<h3>Reviews</h3>
+<ul>
+  <li *ngFor="let review of reviews">
+    <strong>{{ review.userId }}</strong>: {{ review.comment }} ({{ review.rating }}/5)
+  </li>
+</ul>
+
+<form (ngSubmit)="addReview()">
+  <textarea [(ngModel)]="newReview.comment" name="comment" placeholder="Write a review"></textarea>
+  <select [(ngModel)]="newReview.rating" name="rating">
+    <option *ngFor="let i of [1,2,3,4,5]" [value]="i">{{ i }}</option>
+  </select>
+  <button type="submit">Submit Review</button>
+</form>
