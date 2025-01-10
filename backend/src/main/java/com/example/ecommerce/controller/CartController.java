@@ -1,6 +1,7 @@
 //Integrated Email Notifications
 //Improved checkoout Method
 //Preserved Exisiting Features
+//Ensured OrderRepository is enjected to handle order saving
 
 package com.example.ecommerce.controller;
 
