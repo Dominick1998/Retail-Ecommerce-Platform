@@ -1,3 +1,5 @@
+//Integrated Email Notifications
+
 package com.example.ecommerce.controller;
 
 import com.example.ecommerce.model.Cart;
