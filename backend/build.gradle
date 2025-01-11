@@ -1,4 +1,4 @@
-// Apply necessary plugins for the project
+// Apply all necessary plugins for the project
 plugins {
     // The Java plugin provides tasks for compiling Java source code and running Java applications
     id 'java'
