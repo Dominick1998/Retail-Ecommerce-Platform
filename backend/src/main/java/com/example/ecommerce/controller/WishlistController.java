@@ -1,3 +1,5 @@
+// able to add, remove, and retrieve items from wishlist
+
 package com.example.ecommerce.controller;
 
 import com.example.ecommerce.model.Wishlist;
