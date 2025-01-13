@@ -1,0 +1,7 @@
+<h2>Your Wishlist</h2>
+<ul>
+  <li *ngFor="let productId of wishlist.productIds">
+    Product ID: {{ productId }}
+    <button (click)="removeFromWishlist(productId)">Remove</button>
+  </li>
+</ul>
