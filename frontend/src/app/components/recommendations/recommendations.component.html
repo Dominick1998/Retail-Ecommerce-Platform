@@ -1,0 +1,7 @@
+<h2>Recommended Products</h2>
+<ul>
+  <li *ngFor="let product of recommendations">
+    {{ product.name }} - ${{ product.price }}
+    <p>{{ product.description }}</p>
+  </li>
+</ul>
