@@ -1,3 +1,5 @@
+// wishlist model, get userID, getProductIDs
+
 package com.example.ecommerce.model;
 
 import org.springframework.data.annotation.Id;
