@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { RecommendationService } from '../../services/recommendation.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,17 +7,18 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  analytics: any = {};
+  recommendations: any[] = [];
+  userId = JSON.parse(localStorage.getItem('user') || '{}').id;
 
-  constructor(private http: HttpClient) {}
+  constructor(private recommendationService: RecommendationService) {}
 
   ngOnInit(): void {
-    this.loadAnalytics();
+    this.loadRecommendations();
   }
 
-  loadAnalytics() {
-    this.http.get('http://localhost:8080/api/analytics').subscribe(data => {
-      this.analytics = data;
+  loadRecommendations(): void {
+    this.recommendationService.getRecommendations(this.userId).subscribe(data => {
+      this.recommendations = data;
     });
   }
 }
