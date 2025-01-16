@@ -10,6 +10,8 @@ import { RecommendationService } from '../../services/recommendation.service';
 })
 export class RecommendationsComponent implements OnInit {
   recommendations: any[] = [];
+  categories: string[] = ['Electronics', 'Books', 'Clothing', 'Home']; // Example categories
+  selectedCategory: string = '';
   userId = JSON.parse(localStorage.getItem('user') || '{}').id;
 
   constructor(private recommendationService: RecommendationService) {}
@@ -18,9 +20,21 @@ export class RecommendationsComponent implements OnInit {
     this.loadRecommendations();
   }
 
+  // Load all recommendations for the user
   loadRecommendations(): void {
     this.recommendationService.getRecommendations(this.userId).subscribe(data => {
       this.recommendations = data;
     });
+  }
+
+  // Filter recommendations by category
+  filterRecommendations(): void {
+    if (this.selectedCategory) {
+      this.recommendationService.getRecommendationsByCategory(this.userId, this.selectedCategory).subscribe(data => {
+        this.recommendations = data;
+      });
+    } else {
+      this.loadRecommendations(); // Reload all recommendations if no category is selected
+    }
   }
 }
