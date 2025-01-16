@@ -31,9 +31,16 @@ public class RecommendationController {
                 .map(Order.OrderItem::getProductId)
                 .collect(Collectors.toSet());
 
-        // Fetch products not purchased by the user for recommendations
+        // Calculate product popularity (number of times purchased)
+        Map<String, Long> productPopularity = orderRepository.findAll().stream()
+                .flatMap(order -> order.getItems().stream())
+                .collect(Collectors.groupingBy(Order.OrderItem::getProductId, Collectors.counting()));
+
+        // Fetch all products and sort by popularity
         return productRepository.findAll().stream()
-                .filter(product -> !purchasedProductIds.contains(product.getId()))
+                .filter(product -> !purchasedProductIds.contains(product.getId())) // Exclude purchased products
+                .sorted(Comparator.comparingLong(
+                        product -> -productPopularity.getOrDefault(product.getId(), 0L))) // Sort by popularity
                 .limit(5) // Limit to 5 recommendations
                 .collect(Collectors.toList());
     }
