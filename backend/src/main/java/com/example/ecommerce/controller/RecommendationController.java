@@ -20,10 +20,14 @@ public class RecommendationController {
     private ProductRepository productRepository;
 
     // Get recommended products for a user
-    @GetMapping("/{userId}")
-    public List<Product> getRecommendations(@PathVariable String userId) {
-        // Fetch orders for the user
-        List<Order> userOrders = orderRepository.findByUserId(userId);
+   @GetMapping("/{userId}/category/{category}")
+public List<Product> getRecommendationsByCategory(
+        @PathVariable String userId,
+        @PathVariable String category) {
+    List<Product> recommendations = getRecommendations(userId); // Base recommendations logic
+    return recommendations.stream()
+            .filter(product -> category.equalsIgnoreCase(product.getCategory())) // Filter by category
+            .collect(Collectors.toList());
 
         // Collect product IDs from user's order history
         Set<String> purchasedProductIds = userOrders.stream()
