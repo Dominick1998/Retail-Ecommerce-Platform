@@ -1,3 +1,5 @@
+// new features, displays recommended products for the user and includes category filtering functionality.
+
 import { Component, OnInit } from '@angular/core';
 import { RecommendationService } from '../../services/recommendation.service';
 
