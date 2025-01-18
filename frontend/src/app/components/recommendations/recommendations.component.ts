@@ -1,5 +1,3 @@
-// new features, displays recommended products for the user and includes category filtering functionality.
-
 import { Component, OnInit } from '@angular/core';
 import { RecommendationService } from '../../services/recommendation.service';
 
@@ -14,6 +12,7 @@ export class RecommendationsComponent implements OnInit {
   selectedCategory: string = '';
   sortOptions: string[] = ['Price: Low to High', 'Price: High to Low', 'Name: A-Z', 'Name: Z-A'];
   selectedSort: string = '';
+  priceRange = { min: 0, max: 1000 }; // Example range
   userId = JSON.parse(localStorage.getItem('user') || '{}').id;
 
   constructor(private recommendationService: RecommendationService) {}
@@ -35,6 +34,7 @@ export class RecommendationsComponent implements OnInit {
       this.recommendationService.getRecommendationsByCategory(this.userId, this.selectedCategory).subscribe(data => {
         this.recommendations = data;
         this.applySorting(); // Apply sorting after filtering
+        this.filterByPrice(); // Apply price filtering after category filtering
       });
     } else {
       this.loadRecommendations(); // Reload all recommendations if no category is selected
@@ -46,6 +46,14 @@ export class RecommendationsComponent implements OnInit {
     this.applySorting();
   }
 
+  // Filter recommendations by price range
+  filterByPrice(): void {
+    this.recommendations = this.recommendations.filter(product =>
+      product.price >= this.priceRange.min && product.price <= this.priceRange.max
+    );
+  }
+
+  // Apply sorting based on the selected sort option
   private applySorting(): void {
     switch (this.selectedSort) {
       case 'Price: Low to High':
