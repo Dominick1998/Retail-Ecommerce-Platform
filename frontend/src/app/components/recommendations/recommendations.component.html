@@ -14,10 +14,19 @@
   <option *ngFor="let option of sortOptions" [value]="option">{{ option }}</option>
 </select>
 
+<!-- Price Range Filter -->
+<label for="minPrice">Min Price:</label>
+<input id="minPrice" type="number" [(ngModel)]="priceRange.min" />
+
+<label for="maxPrice">Max Price:</label>
+<input id="maxPrice" type="number" [(ngModel)]="priceRange.max" />
+
+<button (click)="filterByPrice()">Apply Price Filter</button>
+
 <!-- Product Recommendations -->
 <ul>
   <li *ngFor="let product of recommendations">
-    {{ product.name }} - ${{ product.price }}
+    <strong>{{ product.name }}</strong> - ${{ product.price }}
     <p>{{ product.description }}</p>
   </li>
 </ul>
