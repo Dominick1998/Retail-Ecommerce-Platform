@@ -28,5 +28,9 @@
   <li *ngFor="let product of recommendations">
     <strong>{{ product.name }}</strong> - ${{ product.price }}
     <p>{{ product.description }}</p>
+    <button (click)="notInterested(product.id)">Not Interested</button>
   </li>
 </ul>
+
+
+
