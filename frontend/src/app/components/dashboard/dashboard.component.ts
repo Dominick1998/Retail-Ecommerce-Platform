@@ -21,4 +21,11 @@ export class DashboardComponent implements OnInit {
       this.recommendations = data;
     });
   }
+ trendingProducts: any[] = [];
+
+loadTrendingProducts(): void {
+  this.recommendationService.getTrendingProducts().subscribe(data => {
+    this.trendingProducts = data;
+  });
+}
 }
