@@ -9,3 +9,11 @@
     <p>{{ product.description }}</p>
   </li>
 </ul>
+
+<h3>Trending Products</h3>
+<ul>
+  <li *ngFor="let product of trendingProducts">
+    <strong>{{ product.name }}</strong> - ${{ product.price }}
+    <p>{{ product.description }}</p>
+  </li>
+</ul>
