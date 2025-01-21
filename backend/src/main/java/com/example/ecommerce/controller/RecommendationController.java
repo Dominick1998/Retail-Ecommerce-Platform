@@ -1,7 +1,9 @@
 package com.example.ecommerce.controller;
 
+import com.example.ecommerce.model.Feedback;
 import com.example.ecommerce.model.Order;
 import com.example.ecommerce.model.Product;
+import com.example.ecommerce.repository.FeedbackRepository;
 import com.example.ecommerce.repository.OrderRepository;
 import com.example.ecommerce.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,21 +15,21 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/recommendations")
 public class RecommendationController {
+
     @Autowired
     private OrderRepository orderRepository;
 
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private FeedbackRepository feedbackRepository;
+
     // Get recommended products for a user
-   @GetMapping("/{userId}/category/{category}")
-public List<Product> getRecommendationsByCategory(
-        @PathVariable String userId,
-        @PathVariable String category) {
-    List<Product> recommendations = getRecommendations(userId); // Base recommendations logic
-    return recommendations.stream()
-            .filter(product -> category.equalsIgnoreCase(product.getCategory())) // Filter by category
-            .collect(Collectors.toList());
+    @GetMapping("/{userId}")
+    public List<Product> getRecommendations(@PathVariable String userId) {
+        // Fetch user's order history
+        List<Order> userOrders = orderRepository.findByUserId(userId);
 
         // Collect product IDs from user's order history
         Set<String> purchasedProductIds = userOrders.stream()
@@ -35,17 +37,35 @@ public List<Product> getRecommendationsByCategory(
                 .map(Order.OrderItem::getProductId)
                 .collect(Collectors.toSet());
 
+        // Collect "Not Interested" product IDs from feedback
+        Set<String> notInterestedProductIds = feedbackRepository.findByUserIdAndFeedbackType(userId, "not_interested")
+                .stream()
+                .map(Feedback::getProductId)
+                .collect(Collectors.toSet());
+
         // Calculate product popularity (number of times purchased)
         Map<String, Long> productPopularity = orderRepository.findAll().stream()
                 .flatMap(order -> order.getItems().stream())
                 .collect(Collectors.groupingBy(Order.OrderItem::getProductId, Collectors.counting()));
 
-        // Fetch all products and sort by popularity
+        // Fetch all products and filter out purchased and "Not Interested" products
         return productRepository.findAll().stream()
                 .filter(product -> !purchasedProductIds.contains(product.getId())) // Exclude purchased products
+                .filter(product -> !notInterestedProductIds.contains(product.getId())) // Exclude "Not Interested" products
                 .sorted(Comparator.comparingLong(
                         product -> -productPopularity.getOrDefault(product.getId(), 0L))) // Sort by popularity
                 .limit(5) // Limit to 5 recommendations
+                .collect(Collectors.toList());
+    }
+
+    // Get recommended products for a user filtered by category
+    @GetMapping("/{userId}/category/{category}")
+    public List<Product> getRecommendationsByCategory(
+            @PathVariable String userId,
+            @PathVariable String category) {
+        List<Product> recommendations = getRecommendations(userId); // Base recommendations logic
+        return recommendations.stream()
+                .filter(product -> category.equalsIgnoreCase(product.getCategory())) // Filter by category
                 .collect(Collectors.toList());
     }
 }
