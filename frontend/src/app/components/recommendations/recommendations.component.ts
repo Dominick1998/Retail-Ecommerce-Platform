@@ -53,6 +53,15 @@ export class RecommendationsComponent implements OnInit {
     );
   }
 
+  // Add a product to the "Not Interested" list
+notInterested(productId: string): void {
+  const feedback = { userId: this.userId, productId, feedbackType: 'not_interested' };
+  this.recommendationService.submitFeedback(feedback).subscribe(() => {
+    // Remove the product from recommendations after feedback submission
+    this.recommendations = this.recommendations.filter(product => product.id !== productId);
+  });
+}
+
   // Apply sorting based on the selected sort option
   private applySorting(): void {
     switch (this.selectedSort) {
