@@ -13,4 +13,12 @@ export class RecommendationService {
   getRecommendations(userId: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/${userId}`);
   }
+
+  getRecommendationsByCategory(userId: string, category: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/${userId}/category/${category}`);
+  }
+
+  getTrendingProducts(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/trending`);
+  }
 }
