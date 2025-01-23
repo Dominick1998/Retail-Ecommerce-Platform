@@ -68,4 +68,20 @@ public class RecommendationController {
                 .filter(product -> category.equalsIgnoreCase(product.getCategory())) // Filter by category
                 .collect(Collectors.toList());
     }
+
+    // Get trending products
+    @GetMapping("/trending")
+    public List<Product> getTrendingProducts() {
+        // Calculate product popularity based on order frequency
+        Map<String, Long> productPopularity = orderRepository.findAll().stream()
+                .flatMap(order -> order.getItems().stream())
+                .collect(Collectors.groupingBy(Order.OrderItem::getProductId, Collectors.counting()));
+
+        // Fetch products and sort by popularity
+        return productRepository.findAll().stream()
+                .sorted(Comparator.comparingLong(
+                        product -> -productPopularity.getOrDefault(product.getId(), 0L))) // Sort by popularity
+                .limit(5) // Limit to top 5 trending products
+                .collect(Collectors.toList());
+    }
 }
