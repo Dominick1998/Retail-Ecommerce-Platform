@@ -1,3 +1,10 @@
+/*
+Endpoints:
+GET /api/recommendations/{userId}: Fetch personalized recommendations for a user.
+GET /api/recommendations/{userId}/category/{category}: Fetch recommendations filtered by category.
+GET /api/recommendations/trending: Fetch globally trending products.
+*/
+
 package com.example.ecommerce.controller;
 
 import com.example.ecommerce.model.Feedback;
