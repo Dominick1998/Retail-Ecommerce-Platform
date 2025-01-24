@@ -1,7 +1,29 @@
 <h2>Welcome to Your Dashboard</h2>
 
+<!-- Sorting Options -->
+<div>
+  <label for="sort">Sort by:</label>
+  <select id="sort" [(ngModel)]="selectedSort" (change)="applySorting(recommendations)">
+    <option value="">None</option>
+    <option *ngFor="let option of sortOptions" [value]="option">{{ option }}</option>
+  </select>
+</div>
+
 <!-- Trending Products Section -->
 <h3>Trending Products</h3>
+
+<!-- Filtering Options -->
+<div>
+  <label for="filterCategory">Filter by Category:</label>
+  <select id="filterCategory" [(ngModel)]="filterCategory" (change)="filterTrendingProducts(filterCategory)">
+    <option value="">All</option>
+    <option value="Electronics">Electronics</option>
+    <option value="Books">Books</option>
+    <option value="Clothing">Clothing</option>
+    <option value="Home">Home</option>
+  </select>
+</div>
+
 <ul>
   <li *ngFor="let product of trendingProducts">
     <strong>{{ product.name }}</strong> - ${{ product.price }}
