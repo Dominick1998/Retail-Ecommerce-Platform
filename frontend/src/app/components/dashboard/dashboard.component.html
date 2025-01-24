@@ -1,7 +1,7 @@
 <h2>Welcome to Your Dashboard</h2>
 
 <!-- Sorting Options -->
-<div>
+<div class="filter-container">
   <label for="sort">Sort by:</label>
   <select id="sort" [(ngModel)]="selectedSort" (change)="applySorting(recommendations)">
     <option value="">None</option>
@@ -13,7 +13,7 @@
 <h3>Trending Products</h3>
 
 <!-- Filtering Options -->
-<div>
+<div class="filter-container">
   <label for="filterCategory">Filter by Category:</label>
   <select id="filterCategory" [(ngModel)]="filterCategory" (change)="filterTrendingProducts(filterCategory)">
     <option value="">All</option>
@@ -24,19 +24,26 @@
   </select>
 </div>
 
-<ul>
-  <li *ngFor="let product of trendingProducts">
-    <strong>{{ product.name }}</strong> - ${{ product.price }}
-    <p>{{ product.description }}</p>
-  </li>
-</ul>
+<div class="product-grid">
+  <div class="product-card" *ngFor="let product of trendingProducts">
+    <img [src]="product.imageUrl" alt="{{ product.name }}" class="product-image" />
+    <div class="product-details">
+      <strong>{{ product.name }}</strong> - ${{ product.price }}
+      <p>{{ product.description }}</p>
+    </div>
+  </div>
+</div>
 
 <!-- Recommendations Section -->
 <h3>Your Recommendations</h3>
-<ul>
-  <li *ngFor="let product of recommendations">
-    <strong>{{ product.name }}</strong> - ${{ product.price }}
-    <p>{{ product.description }}</p>
-    <button (click)="removeRecommendation(product.id)">Not Interested</button>
-  </li>
-</ul>
+
+<div class="product-grid">
+  <div class="product-card" *ngFor="let product of recommendations">
+    <img [src]="product.imageUrl" alt="{{ product.name }}" class="product-image" />
+    <div class="product-details">
+      <strong>{{ product.name }}</strong> - ${{ product.price }}
+      <p>{{ product.description }}</p>
+      <button (click)="removeRecommendation(product.id)">Not Interested</button>
+    </div>
+  </div>
+</div>
