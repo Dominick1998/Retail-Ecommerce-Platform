@@ -123,4 +123,4 @@ Contributions are welcome! Please adhere to the following guidelines:
 
 ## License
 
-
+This project is licensed under the [MIT License](LICENSE).
