@@ -16,6 +16,10 @@ export class DashboardComponent implements OnInit {
   selectedSort: string = '';
   filterCategory: string = '';
 
+  // Loading states
+  isLoadingRecommendations: boolean = true;
+  isLoadingTrending: boolean = true;
+
   constructor(private recommendationService: RecommendationService) {}
 
   ngOnInit(): void {
@@ -25,17 +29,21 @@ export class DashboardComponent implements OnInit {
 
   // Load personalized recommendations for the user
   loadRecommendations(): void {
+    this.isLoadingRecommendations = true;
     this.recommendationService.getRecommendations(this.userId).subscribe(data => {
       this.recommendations = data;
       this.applySorting(this.recommendations); // Apply sorting after loading
+      this.isLoadingRecommendations = false;
     });
   }
 
   // Load globally trending products
   loadTrendingProducts(): void {
+    this.isLoadingTrending = true;
     this.recommendationService.getTrendingProducts().subscribe(data => {
       this.trendingProducts = data;
       this.applySorting(this.trendingProducts); // Apply sorting after loading
+      this.isLoadingTrending = false;
     });
   }
 
