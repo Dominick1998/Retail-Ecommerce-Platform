@@ -26,7 +26,11 @@
 
 <div class="product-grid">
   <div class="product-card" *ngFor="let product of trendingProducts">
-    <img [src]="product.imageUrl" alt="{{ product.name }}" class="product-image" />
+    <img 
+      [src]="product.imageUrl || 'assets/images/default-product.png'" 
+      alt="{{ product.name }}" 
+      class="product-image" 
+    />
     <div class="product-details">
       <strong>{{ product.name }}</strong> - ${{ product.price }}
       <p>{{ product.description }}</p>
@@ -34,12 +38,13 @@
   </div>
 </div>
 
-<!-- Recommendations Section -->
-<h3>Your Recommendations</h3>
-
 <div class="product-grid">
   <div class="product-card" *ngFor="let product of recommendations">
-    <img [src]="product.imageUrl" alt="{{ product.name }}" class="product-image" />
+    <img 
+      [src]="product.imageUrl || 'assets/images/default-product.png'" 
+      alt="{{ product.name }}" 
+      class="product-image" 
+    />
     <div class="product-details">
       <strong>{{ product.name }}</strong> - ${{ product.price }}
       <p>{{ product.description }}</p>
