@@ -3,33 +3,30 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
 
-// Lazy-loaded modules for better performance
-const routes: Routes = [
-  { path: '', loadChildren: () => import('./home/home.module').then(m => m.HomeModule) },
-  { path: 'products', loadChildren: () => import('./products/products.module').then(m => m.ProductsModule) },
-  { path: 'login', loadChildren: () => import('./auth/login.module').then(m => m.LoginModule) },
-  { path: 'register', loadChildren: () => import('./auth/register.module').then(m => m.RegisterModule) },
-  
-  // Authenticated Routes
-  { 
-    path: 'profile', 
-    loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule),
-    canActivate: [AuthGuard] 
-  },
-  
-  // Admin Routes (Restricted)
-  { 
-    path: 'admin', 
-    loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
-    canActivate: [AdminGuard] 
-  },
+// Component Imports
+import { HomeComponent } from './components/home/home.component';
+import { LoginComponent } from './components/auth/login.component';
+import { RegisterComponent } from './components/auth/register.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { AdminDashboardComponent } from './components/admin/admin-dashboard.component';
+import { ProductsComponent } from './components/products/products.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
-  // Wildcard Route (Redirect to Home)
-  { path: '**', redirectTo: '', pathMatch: 'full' }
+const routes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'products', component: ProductsComponent },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: 'admin', component: AdminDashboardComponent, canActivate: [AdminGuard] },
+
+  // 404 Not Found Route
+  { path: '404', component: NotFoundComponent },
+  { path: '**', redirectTo: '404' } // Redirect any unknown paths to Not Found
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
