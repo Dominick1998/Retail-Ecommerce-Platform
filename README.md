@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-The Retail E-commerce Platform is a full-stack web application simulating a retail platform, designed to demonstrate expertise in Angular, Spring Boot, Groovy, MongoDB, and cloud deployment. The project highlights a real-world scenario of an e-commerce solution, showcasing a range of skills relevant to modern enterprise development environments.
+Retail E-commerce Platform is a full-stack web application simulating a retail platform, designed to demonstrate expertise in Angular, Spring Boot, Groovy, MongoDB, and cloud deployment. The project highlights a real-world scenario of an e-commerce solution, showcasing a range of skills relevant to modern enterprise development environments.
 
 ---
 
