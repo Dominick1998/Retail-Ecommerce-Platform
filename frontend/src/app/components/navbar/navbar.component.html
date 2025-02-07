@@ -1,0 +1,15 @@
+<nav class="navbar">
+  <a routerLink="/">Home</a>
+  <a routerLink="/products">Products</a>
+
+  <span *ngIf="!isAuthenticated">
+    <a routerLink="/login">Login</a>
+    <a routerLink="/register">Register</a>
+  </span>
+
+  <span *ngIf="isAuthenticated">
+    <a routerLink="/profile">Profile</a>
+    <a *ngIf="isAdmin" routerLink="/admin">Admin Dashboard</a>
+    <button (click)="logout()">Logout</button>
+  </span>
+</nav>
