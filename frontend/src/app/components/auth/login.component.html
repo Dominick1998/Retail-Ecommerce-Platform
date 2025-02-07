@@ -8,4 +8,6 @@
   <input type="password" [(ngModel)]="password" />
 </div>
 <button (click)="login()">Login</button>
-<p *ngIf="errorMessage">{{ errorMessage }}</p>
+
+<p *ngIf="successMessage" class="success-message">{{ successMessage }}</p>
+<p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
