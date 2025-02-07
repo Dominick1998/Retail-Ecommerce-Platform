@@ -11,6 +11,7 @@ export class LoginComponent {
   username = '';
   password = '';
   errorMessage = '';
+  successMessage = '';
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -18,7 +19,10 @@ export class LoginComponent {
     this.authService.login(this.username, this.password).subscribe(response => {
       if (response.message === 'Login successful') {
         localStorage.setItem('user', JSON.stringify(response));
-        this.router.navigate(['/dashboard']);
+        this.successMessage = 'Login successful! Redirecting...';
+        setTimeout(() => {
+          this.router.navigate(['/dashboard']);
+        }, 2000);
       } else {
         this.errorMessage = 'Invalid username or password';
       }
