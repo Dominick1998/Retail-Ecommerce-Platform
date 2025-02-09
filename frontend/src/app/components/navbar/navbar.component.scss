@@ -5,12 +5,18 @@
   padding: 15px;
   background-color: #333;
   color: white;
+  transition: background-color 0.3s ease-in-out;
 }
 
 .navbar a {
   color: white;
   text-decoration: none;
   margin: 0 15px;
+  transition: color 0.3s ease-in-out;
+}
+
+.navbar a:hover {
+  color: #ff6f61;
 }
 
 .navbar button {
@@ -19,9 +25,10 @@
   border: none;
   padding: 10px 15px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 .navbar button:hover {
   background-color: #e65a50;
+  transform: scale(1.05);
 }
