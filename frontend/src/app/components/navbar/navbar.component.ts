@@ -15,6 +15,10 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.checkAuthStatus();
+    this.authService.getAuthStatusListener().subscribe(isAuth => {
+      this.isAuthenticated = isAuth;
+      this.isAdmin = this.authService.isAdmin();
+    });
   }
 
   checkAuthStatus(): void {
@@ -25,6 +29,5 @@ export class NavbarComponent implements OnInit {
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/']);
-    this.checkAuthStatus();
   }
 }
