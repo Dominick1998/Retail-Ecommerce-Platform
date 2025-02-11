@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RecommendationService } from '../../services/recommendation.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,7 +10,10 @@ import { RecommendationService } from '../../services/recommendation.service';
 export class DashboardComponent implements OnInit {
   recommendations: any[] = [];
   trendingProducts: any[] = [];
-  userId = JSON.parse(localStorage.getItem('user') || '{}').id;
+  userId: string | null = '';
+  isAuthenticated = false;
+  isAdmin = false;
+  username: string | null = '';
 
   // Sorting and filtering options
   sortOptions: string[] = ['Price: Low to High', 'Price: High to Low', 'Name: A-Z', 'Name: Z-A'];
@@ -20,19 +24,44 @@ export class DashboardComponent implements OnInit {
   isLoadingRecommendations: boolean = true;
   isLoadingTrending: boolean = true;
 
-  constructor(private recommendationService: RecommendationService) {}
+  constructor(private recommendationService: RecommendationService, private authService: AuthService) {}
 
   ngOnInit(): void {
+    this.checkAuthStatus();
     this.loadRecommendations();
     this.loadTrendingProducts();
+
+    // Listen for authentication changes
+    this.authService.getAuthStatusListener().subscribe(isAuth => {
+      this.isAuthenticated = isAuth;
+      this.isAdmin = this.authService.isAdmin();
+      this.userId = isAuth ? JSON.parse(localStorage.getItem('user') || '{}').id : null;
+      this.username = this.userId ? 'User' : null;
+      if (isAuth) {
+        this.loadRecommendations();
+      }
+    });
+  }
+
+  checkAuthStatus(): void {
+    this.isAuthenticated = this.authService.isAuthenticated();
+    this.isAdmin = this.authService.isAdmin();
+    this.userId = this.isAuthenticated ? JSON.parse(localStorage.getItem('user') || '{}').id : null;
+    this.username = this.userId ? 'User' : null;
   }
 
   // Load personalized recommendations for the user
   loadRecommendations(): void {
+    if (!this.isAuthenticated || !this.userId) {
+      this.recommendations = [];
+      this.isLoadingRecommendations = false;
+      return;
+    }
+
     this.isLoadingRecommendations = true;
     this.recommendationService.getRecommendations(this.userId).subscribe(data => {
       this.recommendations = data;
-      this.applySorting(this.recommendations); // Apply sorting after loading
+      this.applySorting(this.recommendations);
       this.isLoadingRecommendations = false;
     });
   }
@@ -42,7 +71,7 @@ export class DashboardComponent implements OnInit {
     this.isLoadingTrending = true;
     this.recommendationService.getTrendingProducts().subscribe(data => {
       this.trendingProducts = data;
-      this.applySorting(this.trendingProducts); // Apply sorting after loading
+      this.applySorting(this.trendingProducts);
       this.isLoadingTrending = false;
     });
   }
@@ -67,6 +96,8 @@ export class DashboardComponent implements OnInit {
 
   // Remove a product from recommendations (e.g., "Not Interested" feedback)
   removeRecommendation(productId: string): void {
+    if (!this.isAuthenticated || !this.userId) return;
+
     const feedback = { userId: this.userId, productId, feedbackType: 'not_interested' };
     this.recommendationService.submitFeedback(feedback).subscribe(() => {
       this.recommendations = this.recommendations.filter(product => product.id !== productId);
