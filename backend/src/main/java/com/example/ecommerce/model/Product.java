@@ -1,5 +1,5 @@
 //Verify imageUrl is correctly included in product data
-//Ensure existing products can be updated with image URLs
+//Ensure already existing products can be updated with image URLs
 
 package com.example.ecommerce.model;
 
