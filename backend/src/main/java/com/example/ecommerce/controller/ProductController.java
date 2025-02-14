@@ -1,3 +1,5 @@
+// This updated version improves pagination, sorting, role-based access control, and error handling for product management.
+
 package com.example.ecommerce.controller;
 
 import com.example.ecommerce.model.Product;
