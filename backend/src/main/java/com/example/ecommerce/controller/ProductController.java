@@ -4,8 +4,7 @@ import com.example.ecommerce.model.Product;
 import com.example.ecommerce.repository.ProductRepository;
 import com.example.ecommerce.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,9 +20,17 @@ public class ProductController {
     @Autowired
     private JwtUtil jwtUtil;
 
-    // Get all products with pagination
+    // Get all products with pagination and sorting
     @GetMapping
-    public Page<Product> getProducts(Pageable pageable) {
+    public Page<Product> getProducts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "name") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortOrder) {
+
+        Sort sort = sortOrder.equalsIgnoreCase("desc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+
         return productRepository.findAll(pageable);
     }
 
