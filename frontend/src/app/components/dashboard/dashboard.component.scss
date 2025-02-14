@@ -1,17 +1,26 @@
 /* General Styles */
 h2, h3 {
   text-align: center;
-  margin-bottom: 20px;
+  font-size: 1.8rem;
+  margin-bottom: 10px;
 }
 
+.guest-message {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 20px;
+}
+
+/* Filter and Sorting */
 .filter-container {
   display: flex;
   justify-content: center;
-  gap: 15px;
-  margin-bottom: 20px;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
 }
 
-label {
+.filter-container label {
   font-weight: bold;
 }
 
@@ -31,12 +40,11 @@ label {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
   background-color: #fff;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.3s;
 }
 
 .product-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  transform: scale(1.02);
 }
 
 .product-image {
@@ -48,17 +56,17 @@ label {
 
 .product-details {
   margin-top: 10px;
-  line-height: 1.5;
+  font-size: 1rem;
 }
 
 button {
   background-color: #ff6f61;
-  color: #fff;
+  color: white;
   border: none;
   border-radius: 5px;
   padding: 10px 15px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 button:hover {
@@ -68,41 +76,37 @@ button:hover {
 
 /* Loading Spinner */
 .loading-spinner {
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #3498db;
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(0, 0, 0, 0.1);
+  border-top: 5px solid #ff6f61;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
   animation: spin 1s linear infinite;
   margin: 20px auto;
 }
 
 @keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
-/* Responsive Styles */
+/* Mobile Responsive */
 @media (max-width: 768px) {
   .filter-container {
     flex-direction: column;
     align-items: center;
   }
 
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+
   .product-card {
     padding: 10px;
   }
 
-  .product-grid {
-    padding: 10px;
-    gap: 15px;
-  }
-
   button {
-    padding: 8px 12px;
+    width: 100%;
+    padding: 12px;
   }
 }
