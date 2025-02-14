@@ -1,3 +1,5 @@
+//This updated version includes pagination, sorting, category filtering, and real-time search functionality
+
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 
