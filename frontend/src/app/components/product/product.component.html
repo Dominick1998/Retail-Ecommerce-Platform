@@ -1,24 +1,51 @@
-<!--html for productcomponent-->
-
 <h2>Products</h2>
 
-<label for="search">Search Products:</label>
-<input id="search" [(ngModel)]="searchQuery" placeholder="Search by name" />
-<button (click)="searchProducts()">Search</button>
+<!-- Search Bar -->
+<div class="search-container">
+  <label for="search">Search Products:</label>
+  <input id="search" [(ngModel)]="searchQuery" placeholder="Search by name..." (keyup.enter)="searchProducts()">
+  <button (click)="searchProducts()">Search</button>
+</div>
 
-<label for="category">Filter by Category:</label>
-<select id="category" [(ngModel)]="selectedCategory" (change)="filterByCategory()">
-  <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
-</select>
+<!-- Sorting Options -->
+<div class="filter-container">
+  <label for="sort">Sort by:</label>
+  <select id="sort" [(ngModel)]="sortBy" (change)="changeSorting(sortBy + ':asc')">
+    <option value="name">Name (A-Z)</option>
+    <option value="name:desc">Name (Z-A)</option>
+    <option value="price">Price (Low to High)</option>
+    <option value="price:desc">Price (High to Low)</option>
+  </select>
+</div>
 
-<ul>
-  <li *ngFor="let product of products">
-    {{ product.name }} - ${{ product.price }}
-  </li>
-</ul>
+<!-- Filtering Options -->
+<div class="filter-container">
+  <label for="category">Filter by Category:</label>
+  <select id="category" [(ngModel)]="selectedCategory" (change)="filterByCategory()">
+    <option value="">All</option>
+    <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+  </select>
+</div>
 
-<div class="pagination">
+<!-- Loading Spinner -->
+<div *ngIf="isLoading" class="loading-spinner"></div>
+
+<!-- Product List -->
+<div *ngIf="!isLoading" class="product-grid">
+  <div class="product-card" *ngFor="let product of products">
+    <img [src]="product.imageUrl || 'assets/images/default-product.png'" 
+         alt="{{ product.name }}" 
+         class="product-image">
+    <div class="product-details">
+      <strong>{{ product.name }}</strong> - ${{ product.price }}
+      <p>{{ product.description }}</p>
+    </div>
+  </div>
+</div>
+
+<!-- Pagination Controls -->
+<div class="pagination-controls">
   <button (click)="previousPage()" [disabled]="currentPage === 0">Previous</button>
-  <span>Page {{ currentPage + 1 }}</span>
-  <button (click)="nextPage()">Next</button>
+  <span>Page {{ currentPage + 1 }} of {{ totalPages }}</span>
+  <button (click)="nextPage()" [disabled]="currentPage >= totalPages - 1">Next</button>
 </div>
