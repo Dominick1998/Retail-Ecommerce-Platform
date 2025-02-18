@@ -1,5 +1,3 @@
-// This updated version improves pagination, sorting, role-based access control, and error handling for product management.
-
 package com.example.ecommerce.controller;
 
 import com.example.ecommerce.model.Product;
@@ -7,6 +5,7 @@ import com.example.ecommerce.repository.ProductRepository;
 import com.example.ecommerce.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +23,7 @@ public class ProductController {
 
     // Get all products with pagination and sorting
     @GetMapping
-    public Page<Product> getProducts(
+    public ResponseEntity<Page<Product>> getProducts(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "name") String sortBy,
@@ -33,75 +32,91 @@ public class ProductController {
         Sort sort = sortOrder.equalsIgnoreCase("desc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
         Pageable pageable = PageRequest.of(page, size, sort);
 
-        return productRepository.findAll(pageable);
+        Page<Product> products = productRepository.findAll(pageable);
+        return ResponseEntity.ok(products);
     }
 
     // Get all products without pagination
     @GetMapping("/all")
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public ResponseEntity<List<Product>> getAllProducts() {
+        return ResponseEntity.ok(productRepository.findAll());
     }
 
     // Get a single product by ID
     @GetMapping("/{id}")
-    public Optional<Product> getProductById(@PathVariable String id) {
-        return productRepository.findById(id);
+    public ResponseEntity<Product> getProductById(@PathVariable String id) {
+        return productRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     // Get products by category
     @GetMapping("/category/{category}")
-    public List<Product> getProductsByCategory(@PathVariable String category) {
-        return productRepository.findByCategory(category);
+    public ResponseEntity<List<Product>> getProductsByCategory(@PathVariable String category) {
+        List<Product> products = productRepository.findByCategory(category);
+        if (products.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(products);
     }
 
     // Search products by name
     @GetMapping("/search")
-    public List<Product> searchProducts(@RequestParam String query) {
-        return productRepository.findByNameContainingIgnoreCase(query);
+    public ResponseEntity<List<Product>> searchProducts(@RequestParam String query) {
+        List<Product> products = productRepository.findByNameContainingIgnoreCase(query);
+        if (products.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(products);
     }
 
     // Create a new product (Admin only)
     @PostMapping
-    public Object createProduct(@RequestBody Product product, HttpServletRequest request) {
+    public ResponseEntity<?> createProduct(@RequestBody Product product, HttpServletRequest request) {
         List<String> roles = jwtUtil.extractRolesFromRequest(request);
 
-        if (roles.contains("ADMIN")) {
-            return productRepository.save(product);
-        } else {
-            return "Unauthorized - Only admins can add products";
+        if (!roles.contains("ADMIN")) {
+            return ResponseEntity.status(403).body("Unauthorized - Only admins can add products");
         }
+
+        Product savedProduct = productRepository.save(product);
+        return ResponseEntity.ok(savedProduct);
     }
 
     // Update an existing product (Admin only)
     @PutMapping("/{id}")
-    public Object updateProduct(@PathVariable String id, @RequestBody Product updatedProduct, HttpServletRequest request) {
+    public ResponseEntity<?> updateProduct(@PathVariable String id, @RequestBody Product updatedProduct, HttpServletRequest request) {
         List<String> roles = jwtUtil.extractRolesFromRequest(request);
 
-        if (roles.contains("ADMIN")) {
-            return productRepository.findById(id)
-                    .map(product -> {
-                        product.setName(updatedProduct.getName());
-                        product.setPrice(updatedProduct.getPrice());
-                        product.setDescription(updatedProduct.getDescription());
-                        product.setCategory(updatedProduct.getCategory());
-                        return productRepository.save(product);
-                    })
-                    .orElseThrow(() -> new RuntimeException("Product not found"));
-        } else {
-            return "Unauthorized - Only admins can update products";
+        if (!roles.contains("ADMIN")) {
+            return ResponseEntity.status(403).body("Unauthorized - Only admins can update products");
         }
+
+        return productRepository.findById(id)
+                .map(product -> {
+                    product.setName(updatedProduct.getName());
+                    product.setPrice(updatedProduct.getPrice());
+                    product.setDescription(updatedProduct.getDescription());
+                    product.setCategory(updatedProduct.getCategory());
+                    return ResponseEntity.ok(productRepository.save(product));
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 
     // Delete a product by ID (Admin only)
     @DeleteMapping("/{id}")
-    public Object deleteProduct(@PathVariable String id, HttpServletRequest request) {
+    public ResponseEntity<?> deleteProduct(@PathVariable String id, HttpServletRequest request) {
         List<String> roles = jwtUtil.extractRolesFromRequest(request);
 
-        if (roles.contains("ADMIN")) {
-            productRepository.deleteById(id);
-            return "Product deleted successfully";
-        } else {
-            return "Unauthorized - Only admins can delete products";
+        if (!roles.contains("ADMIN")) {
+            return ResponseEntity.status(403).body("Unauthorized - Only admins can delete products");
         }
+
+        if (!productRepository.existsById(id)) {
+            return ResponseEntity.status(404).body("Product not found");
+        }
+
+        productRepository.deleteById(id);
+        return ResponseEntity.ok("Product deleted successfully");
     }
 }
