@@ -64,7 +64,15 @@ export class AuthService {
   getAuthHeaders(): HttpHeaders {
     const token = this.getToken();
     return new HttpHeaders({
-      'Authorization': token ? `Bearer ${token}` : ''
+      'Authorization': token ? `Bearer ${token}` : '',
+      'Content-Type': 'application/json'
     });
+  }
+
+  // Automatically refresh authentication status on initialization
+  initializeAuthState(): void {
+    if (this.isAuthenticated()) {
+      this.authStatusListener.next(true);
+    }
   }
 }
