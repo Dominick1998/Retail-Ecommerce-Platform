@@ -10,15 +10,18 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = this.authService.getToken();
 
+    // If JWT token exists, clone request and attach token
     if (token) {
-      const cloned = req.clone({
+      const clonedRequest = req.clone({
         setHeaders: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
         }
       });
-      return next.handle(cloned);
+      return next.handle(clonedRequest);
     }
 
+    // Pass original request if no token
     return next.handle(req);
   }
 }
