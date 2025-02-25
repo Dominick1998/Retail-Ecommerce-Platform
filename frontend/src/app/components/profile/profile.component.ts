@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -8,23 +9,31 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ProfileComponent implements OnInit {
   user: any = {};
-  userId = JSON.parse(localStorage.getItem('user') || '{}').id;
+  isLoading = true;
 
-  constructor(private http: HttpClient) {}
+  constructor(private authService: AuthService, private http: HttpClient) {}
 
   ngOnInit(): void {
     this.loadProfile();
   }
 
-  loadProfile() {
-    this.http.get(`http://localhost:8080/api/users/${this.userId}`).subscribe(data => {
-      this.user = data;
-    });
+  loadProfile(): void {
+    this.http.get('/api/users/profile', { headers: this.authService.getAuthHeaders() })
+      .subscribe((data: any) => {
+        this.user = data;
+        this.isLoading = false;
+      }, error => {
+        console.error('Error loading profile', error);
+        this.isLoading = false;
+      });
   }
 
-  saveProfile() {
-    this.http.put(`http://localhost:8080/api/users/${this.userId}`, this.user).subscribe(() => {
-      alert('Profile updated successfully');
-    });
+  updateProfile(): void {
+    this.http.put('/api/users/profile/update', this.user, { headers: this.authService.getAuthHeaders() })
+      .subscribe(response => {
+        alert('Profile updated successfully!');
+      }, error => {
+        console.error('Error updating profile', error);
+      });
   }
 }
