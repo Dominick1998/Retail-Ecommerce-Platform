@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { WishlistService } from '../../services/wishlist.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-wishlist',
@@ -8,23 +9,37 @@ import { WishlistService } from '../../services/wishlist.service';
 })
 export class WishlistComponent implements OnInit {
   wishlist: any = { productIds: [] };
-  userId = JSON.parse(localStorage.getItem('user') || '{}').id;
+  isLoading = true;
+  errorMessage = '';
 
-  constructor(private wishlistService: WishlistService) {}
+  constructor(private wishlistService: WishlistService, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.loadWishlist();
   }
 
   loadWishlist(): void {
-    this.wishlistService.getWishlist(this.userId).subscribe(data => {
-      this.wishlist = data;
+    this.isLoading = true;
+    this.wishlistService.getWishlist().subscribe({
+      next: (data) => {
+        this.wishlist = data;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.errorMessage = 'Error loading wishlist.';
+        console.error(err);
+        this.isLoading = false;
+      }
     });
   }
 
   removeFromWishlist(productId: string): void {
-    this.wishlistService.removeFromWishlist(this.userId, productId).subscribe(() => {
-      this.loadWishlist();
+    this.wishlistService.removeFromWishlist(productId).subscribe({
+      next: () => this.loadWishlist(),
+      error: (err) => {
+        this.errorMessage = 'Error removing product from wishlist.';
+        console.error(err);
+      }
     });
   }
 }
