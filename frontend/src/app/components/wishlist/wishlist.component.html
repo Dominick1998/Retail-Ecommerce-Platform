@@ -1,7 +1,31 @@
 <h2>Your Wishlist</h2>
-<ul>
-  <li *ngFor="let productId of wishlist.productIds">
-    Product ID: {{ productId }}
-    <button (click)="removeFromWishlist(productId)">Remove</button>
-  </li>
-</ul>
+
+<!-- Show loading spinner while fetching data -->
+<div *ngIf="isLoading" class="loading-spinner"></div>
+
+<!-- Display error message if there's an issue -->
+<div *ngIf="errorMessage" class="error-message">
+  {{ errorMessage }}
+</div>
+
+<!-- Show wishlist items -->
+<div *ngIf="wishlist.productIds.length > 0; else emptyWishlist">
+  <div class="wishlist-grid">
+    <div class="wishlist-item" *ngFor="let product of wishlist.productIds">
+      <img [src]="product.imageUrl || 'assets/images/default-product.png'" 
+           alt="{{ product.name }}" class="wishlist-image" />
+
+      <div class="wishlist-details">
+        <h3>{{ product.name }}</h3>
+        <p>{{ product.description }}</p>
+        <p><strong>${{ product.price }}</strong></p>
+        <button (click)="removeFromWishlist(product.id)">Remove</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Template for empty wishlist -->
+<ng-template #emptyWishlist>
+  <p class="empty-message">Your wishlist is empty.</p>
+</ng-template>
