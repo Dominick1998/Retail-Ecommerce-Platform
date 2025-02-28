@@ -1,3 +1,5 @@
+//wishlist cntroller/mapping
+
 package com.example.ecommerce.controller;
 
 import com.example.ecommerce.model.Wishlist;
