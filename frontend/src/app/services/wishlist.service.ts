@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,17 +9,20 @@ import { Observable } from 'rxjs';
 export class WishlistService {
   private apiUrl = 'http://localhost:8080/api/wishlist';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
-  getWishlist(userId: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${userId}`);
+  // Get the wishlist for the logged-in user
+  getWishlist(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}`, { headers: this.authService.getAuthHeaders() });
   }
 
-  addToWishlist(userId: string, productId: string): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${userId}/add/${productId}`, {});
+  // Add a product to the wishlist
+  addToWishlist(productId: string): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/add/${productId}`, {}, { headers: this.authService.getAuthHeaders() });
   }
 
-  removeFromWishlist(userId: string, productId: string): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${userId}/remove/${productId}`, {});
+  // Remove a product from the wishlist
+  removeFromWishlist(productId: string): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/remove/${productId}`, {}, { headers: this.authService.getAuthHeaders() });
   }
 }
