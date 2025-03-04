@@ -10,6 +10,7 @@ import java.util.Optional;
 @Repository
 public interface WishlistRepository extends MongoRepository<Wishlist, String> {
 
+        // Optimized query using MongoDB indexing
     @Query(value = "{ 'userId': ?0 }", fields = "{ 'productIds': 1, '_id': 0 }")
     Optional<Wishlist> findByUserId(String userId);
 }
