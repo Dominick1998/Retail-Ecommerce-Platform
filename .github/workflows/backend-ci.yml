@@ -21,14 +21,31 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Grant Execute Permission for Gradlew
+        run: chmod +x backend/gradlew
+
       - name: Build with Gradle
-        run: cd backend && ./gradlew build
+        run: cd backend && ./gradlew build --no-daemon
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install Heroku CLI
+        run: curl https://cli-assets.heroku.com/install.sh | sh
+
+      - name: Login to Heroku
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku auth:token
 
       - name: Deploy to Heroku
+        env:
+          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
         run: |
-          curl https://cli-assets.heroku.com/install.sh | sh
-          heroku auth:token
           heroku container:login
-          heroku container:push web -a ${{ secrets.HEROKU_APP_NAME }}
-          heroku container:release web -a ${{ secrets.HEROKU_APP_NAME }}
-
+          heroku container:push web -a $HEROKU_APP_NAME
+          heroku container:release web -a $HEROKU_APP_NAME
