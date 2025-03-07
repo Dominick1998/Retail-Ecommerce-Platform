@@ -1,4 +1,4 @@
-name: Backend CI/CD Pipeline
+name: Frontend CI/CD Pipeline
 
 on:
   push:
@@ -15,17 +15,19 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Set up Java
-        uses: actions/setup-java@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          distribution: 'temurin'
-          java-version: '17'
+          node-version: '18'
 
-      - name: Grant Execute Permission for Gradlew
-        run: chmod +x backend/gradlew
+      - name: Install Angular CLI
+        run: npm install -g @angular/cli
 
-      - name: Build with Gradle
-        run: cd backend && ./gradlew build --no-daemon
+      - name: Install Dependencies
+        run: cd frontend && npm install
+
+      - name: Build Frontend
+        run: cd frontend && ng build --configuration=production
 
   deploy:
     needs: build
@@ -34,18 +36,13 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Install Heroku CLI
-        run: curl https://cli-assets.heroku.com/install.sh | sh
-
-      - name: Login to Heroku
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku auth:token
-
-      - name: Deploy to Heroku
-        env:
-          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
-        run: |
-          heroku container:login
-          heroku container:push web -a $HEROKU_APP_NAME
-          heroku container:release web -a $HEROKU_APP_NAME
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v2
+        with:
+          publish-dir: frontend/dist
+          production-branch: main
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Frontend Deployed via GitHub Actions"
+          alias: "main"
+          enable-pull-request-comment: true
+          enable-commit-status: true
