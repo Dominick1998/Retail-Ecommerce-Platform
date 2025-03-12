@@ -21,6 +21,14 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Check Gradle Wrapper Existence
+        run: |
+          if [ ! -f "backend/gradlew" ]; then
+            echo "Gradle Wrapper missing! Generating it now..."
+            cd backend
+            gradle wrapper
+          fi
+
       - name: Grant Execute Permission for Gradlew
         run: chmod +x backend/gradlew
 
@@ -40,7 +48,10 @@ jobs:
       - name: Login to Heroku
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku auth:token
+        run: echo $HEROKU_API_KEY | heroku auth:token
+
+      - name: Ensure Docker is Installed
+        run: sudo apt-get update && sudo apt-get install -y docker.io
 
       - name: Deploy to Heroku
         env:
