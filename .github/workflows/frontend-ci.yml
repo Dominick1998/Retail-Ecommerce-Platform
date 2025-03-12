@@ -20,6 +20,20 @@ jobs:
         with:
           node-version: '18'
 
+      - name: Verify Frontend Directory Exists
+        run: |
+          if [ ! -d "frontend" ]; then
+            echo "Error: frontend directory is missing!"
+            exit 1
+          fi
+
+      - name: Check if package.json Exists
+        run: |
+          if [ ! -f "frontend/package.json" ]; then
+            echo "Error: package.json not found in frontend directory!"
+            exit 1
+          fi
+
       - name: Install Angular CLI
         run: npm install -g @angular/cli
 
@@ -36,6 +50,13 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - name: Verify Build Directory Exists
+        run: |
+          if [ ! -d "frontend/dist" ]; then
+            echo "Error: frontend/dist directory is missing!"
+            exit 1
+          fi
+
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v2
         with:
@@ -46,3 +67,5 @@ jobs:
           alias: "main"
           enable-pull-request-comment: true
           enable-commit-status: true
+          netlify-auth-token: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          site-id: ${{ secrets.NETLIFY_SITE_ID }}
