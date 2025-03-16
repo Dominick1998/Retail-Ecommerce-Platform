@@ -27,10 +27,10 @@ jobs:
             exit 1
           fi
 
-      - name: Check if package.json Exists
+      - name: Check if Angular Project Exists
         run: |
-          if [ ! -f "frontend/package.json" ]; then
-            echo "Error: package.json not found in frontend directory!"
+          if [ ! -f "frontend/angular.json" ]; then
+            echo "Error: Angular project definition (angular.json) is missing!"
             exit 1
           fi
 
