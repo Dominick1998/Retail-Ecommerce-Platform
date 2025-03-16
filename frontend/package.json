@@ -1,7 +1,9 @@
 {
   "Dominick": "Retail-Ecommerce-Platform",
   "version": "1.0.0",
-  "dependencies": {
-    ...
-  }
+ "dependencies": {
+  "angular": "^12.0.0",
+  "rxjs": "^7.0.0"
+}
+
 }
