@@ -1,1 +1,7 @@
-+
+{
+  "Dominick": "Retail-Ecommerce-Platform",
+  "version": "1.0.0",
+  "dependencies": {
+    ...
+  }
+}
