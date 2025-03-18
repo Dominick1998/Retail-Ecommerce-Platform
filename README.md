@@ -2,7 +2,7 @@
 
 ## **Project Overview**  
 
-The Retail E-commerce Platform is a full-stack web application simulating a retail shopping experience. It showcases expertise in Angular, Java (Spring Boot), Groovy, MongoDB, and IBM Cloud. The project highlights a real-world e-commerce solution with authentication, role-based access, and product management.  
+The Retail E-commerce Platform is a full-stack web application simulating a retail shopping experience. It showcases expertise in Angular, Java (Spring Boot), Groovy, MongoDB, and IBM Cloud. The project highlights a real-world e-commerce solution with authentication, role-based access, and product management. 
 
 ---
 
@@ -199,3 +199,4 @@ This project is licensed under the [MIT License](LICENSE).
 - Cloud security configurations  
 
 ---
+
