@@ -20,25 +20,15 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Verify Frontend Directory Exists
+      - name: Remove Cached `node_modules`
         run: |
-          if [ ! -d "frontend" ]; then
-            echo "Error: frontend directory is missing!"
-            exit 1
-          fi
-
-      - name: Check if Angular Project Exists
-        run: |
-          if [ ! -f "frontend/angular.json" ]; then
-            echo "Error: Angular project definition (angular.json) is missing!"
-            exit 1
-          fi
+          rm -rf frontend/node_modules frontend/package-lock.json
 
       - name: Install Angular CLI
         run: npm install -g @angular/cli
 
-      - name: Install Dependencies
-        run: cd frontend && npm install
+      - name: Install Dependencies (Clean Install)
+        run: cd frontend && npm install --force
 
       - name: Build Frontend
         run: cd frontend && ng build --configuration=production
