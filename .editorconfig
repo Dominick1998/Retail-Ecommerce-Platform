@@ -1,3 +1,4 @@
+# Indicate that this is the root EditorConfig file
 root = true
 
 # Global settings for all files
