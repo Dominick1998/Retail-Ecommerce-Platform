@@ -1,4 +1,4 @@
-(# **Retail E-commerce Platform**  
+# **Retail E-commerce Platform**  
 
 ## **Project Overview**  
 
