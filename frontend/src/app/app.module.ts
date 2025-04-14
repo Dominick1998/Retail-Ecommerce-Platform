@@ -25,7 +25,10 @@ import { AnalyticsDashboardComponent } from './components/admin/analytics-dashbo
     LoginComponent,
     RegisterComponent,
     ProductComponent,
-    DashboardComponent
+    DashboardComponent,
+    AdminDashboardComponent,
+    UserManagementComponent,
+    AnalyticsDashboardComponent,
     // Add other components here as needed
   ],
   imports: [
