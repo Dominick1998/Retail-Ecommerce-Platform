@@ -23,6 +23,9 @@ const routes: Routes = [
   { path: 'products', component: ProductsComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'admin', component: AdminDashboardComponent, canActivate: [AdminGuard] },
+  { path: 'admin/dashboard', component: AdminDashboardComponent, canActivate: [AdminGuard] },
+  { path: 'admin/users', component: UserManagementComponent, canActivate: [AdminGuard] },
+  { path: 'admin/analytics', component: AnalyticsDashboardComponent, canActivate: [AdminGuard] },
 
   // 404 Not Found Route
   { path: '404', component: NotFoundComponent },
