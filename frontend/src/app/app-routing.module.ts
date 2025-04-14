@@ -12,6 +12,9 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { AdminDashboardComponent } from './components/admin/admin-dashboard.component';
 import { ProductsComponent } from './components/products/products.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { AdminDashboardComponent } from './components/admin/admin-dashboard.component';
+import { UserManagementComponent } from './components/admin/user-management.component';
+import { AnalyticsDashboardComponent } from './components/admin/analytics-dashboard.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
