@@ -13,6 +13,10 @@ import { LoginComponent } from './components/auth/login.component';
 import { RegisterComponent } from './components/auth/register.component';
 import { ProductComponent } from './components/product/product.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { AdminDashboardComponent } from './components/admin/admin-dashboard.component';
+import { UserManagementComponent } from './components/admin/user-management.component';
+import { AnalyticsDashboardComponent } from './components/admin/analytics-dashboard.component';
+
 
 @NgModule({
   declarations: [
