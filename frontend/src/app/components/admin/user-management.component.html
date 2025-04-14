@@ -1,0 +1,17 @@
+<h3>User Management</h3>
+<table>
+  <tr>
+    <th>Username</th>
+    <th>Roles</th>
+    <th>Actions</th>
+  </tr>
+  <tr *ngFor="let user of users">
+    <td>{{ user.username }}</td>
+    <td>{{ user.roles.join(', ') }}</td>
+    <td>
+      <button (click)="promote(user.id)">Promote</button>
+      <button (click)="demote(user.id)">Demote</button>
+      <button (click)="delete(user.id)">Delete</button>
+    </td>
+  </tr>
+</table>
