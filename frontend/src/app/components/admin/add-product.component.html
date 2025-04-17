@@ -1,0 +1,7 @@
+<form (ngSubmit)="uploadAndSaveProduct()">
+  <input type="text" [(ngModel)]="product.name" name="name" placeholder="Product Name" required>
+  <input type="text" [(ngModel)]="product.price" name="price" placeholder="Price" required>
+  <input type="text" [(ngModel)]="product.description" name="description" placeholder="Description" required>
+  <input type="file" (change)="onFileSelected($event)">
+  <button type="submit">Add Product</button>
+</form>
