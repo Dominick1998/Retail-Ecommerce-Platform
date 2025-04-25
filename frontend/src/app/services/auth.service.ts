@@ -11,7 +11,7 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  // Login and store JWT token
+  // Login and store JWT + refresh token
   login(username: string, password: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, { username, password });
   }
@@ -21,16 +21,24 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/register`, { username, password });
   }
 
-  // Store JWT token and user roles in localStorage
-  storeUserData(token: string, roles: string[]): void {
-    localStorage.setItem('token', token);
+  // Store both tokens and roles
+  storeUserData(accessToken: string, roles: string[], refreshToken?: string): void {
+    localStorage.setItem('token', accessToken);
     localStorage.setItem('roles', JSON.stringify(roles));
+    if (refreshToken) {
+      localStorage.setItem('refreshToken', refreshToken);
+    }
     this.authStatusListener.next(true);
   }
 
-  // Get stored JWT token
+  // Get stored JWT access token
   getToken(): string | null {
     return localStorage.getItem('token');
+  }
+
+  // Get stored refresh token
+  getRefreshToken(): string | null {
+    return localStorage.getItem('refreshToken');
   }
 
   // Get stored user roles
@@ -43,24 +51,25 @@ export class AuthService {
     return !!this.getToken();
   }
 
-  // Observable for auth status changes
+  // Observable to monitor login/logout state
   getAuthStatusListener(): Observable<boolean> {
     return this.authStatusListener.asObservable();
   }
 
-  // Check if user is an Admin
+  // Check if user has admin privileges
   isAdmin(): boolean {
     return this.getUserRoles().includes('ADMIN');
   }
 
-  // Logout and remove user data
+  // Logout: remove all auth-related data
   logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('roles');
+    localStorage.removeItem('refreshToken');
     this.authStatusListener.next(false);
   }
 
-  // Add authentication headers to HTTP requests
+  // Send auth headers with API requests
   getAuthHeaders(): HttpHeaders {
     const token = this.getToken();
     return new HttpHeaders({
@@ -69,10 +78,16 @@ export class AuthService {
     });
   }
 
-  // Automatically refresh authentication status on initialization
+  // Initialize auth state (useful on app start)
   initializeAuthState(): void {
     if (this.isAuthenticated()) {
       this.authStatusListener.next(true);
     }
+  }
+
+  // Refresh access token using refresh token
+  refreshToken(): Observable<any> {
+    const refreshToken = this.getRefreshToken();
+    return this.http.post(`${this.apiUrl}/refresh-token`, { refreshToken });
   }
 }
