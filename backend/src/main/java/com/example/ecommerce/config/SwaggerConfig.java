@@ -22,4 +22,3 @@ public class SwaggerConfig {
                                 .url("https://github.com/Dominick1998")));
     }
 }
-
