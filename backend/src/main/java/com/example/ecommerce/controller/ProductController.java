@@ -3,6 +3,10 @@ package com.example.ecommerce.controller;
 import com.example.ecommerce.model.Product;
 import com.example.ecommerce.repository.ProductRepository;
 import com.example.ecommerce.security.JwtUtil;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.http.ResponseEntity;
@@ -10,21 +14,19 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Optional;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.Operation;
-
+@Tag(name = "Products", description = "Endpoints for managing and retrieving products")
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
+
     @Autowired
     private ProductRepository productRepository;
 
     @Autowired
     private JwtUtil jwtUtil;
 
-    // Get all products with pagination and sorting
+    @Operation(summary = "Get all products with pagination and sorting")
     @GetMapping
     public ResponseEntity<Page<Product>> getProducts(
             @RequestParam(defaultValue = "0") int page,
@@ -39,13 +41,13 @@ public class ProductController {
         return ResponseEntity.ok(products);
     }
 
-    // Get all products without pagination
+    @Operation(summary = "Get all products without pagination")
     @GetMapping("/all")
     public ResponseEntity<List<Product>> getAllProducts() {
         return ResponseEntity.ok(productRepository.findAll());
     }
 
-    // Get a single product by ID
+    @Operation(summary = "Get a product by ID")
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable String id) {
         return productRepository.findById(id)
@@ -53,7 +55,7 @@ public class ProductController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Get products by category
+    @Operation(summary = "Get products by category")
     @GetMapping("/category/{category}")
     public ResponseEntity<List<Product>> getProductsByCategory(@PathVariable String category) {
         List<Product> products = productRepository.findByCategory(category);
@@ -63,7 +65,7 @@ public class ProductController {
         return ResponseEntity.ok(products);
     }
 
-    // Search products by name
+    @Operation(summary = "Search products by name")
     @GetMapping("/search")
     public ResponseEntity<List<Product>> searchProducts(@RequestParam String query) {
         List<Product> products = productRepository.findByNameContainingIgnoreCase(query);
@@ -73,7 +75,7 @@ public class ProductController {
         return ResponseEntity.ok(products);
     }
 
-    // Create a new product (Admin only)
+    @Operation(summary = "Create a new product (Admin only)")
     @PostMapping
     public ResponseEntity<?> createProduct(@RequestBody Product product, HttpServletRequest request) {
         List<String> roles = jwtUtil.extractRolesFromRequest(request);
@@ -86,7 +88,7 @@ public class ProductController {
         return ResponseEntity.ok(savedProduct);
     }
 
-    // Update an existing product (Admin only)
+    @Operation(summary = "Update an existing product (Admin only)")
     @PutMapping("/{id}")
     public ResponseEntity<?> updateProduct(@PathVariable String id, @RequestBody Product updatedProduct, HttpServletRequest request) {
         List<String> roles = jwtUtil.extractRolesFromRequest(request);
@@ -106,7 +108,7 @@ public class ProductController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Delete a product by ID (Admin only)
+    @Operation(summary = "Delete a product by ID (Admin only)")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteProduct(@PathVariable String id, HttpServletRequest request) {
         List<String> roles = jwtUtil.extractRolesFromRequest(request);
