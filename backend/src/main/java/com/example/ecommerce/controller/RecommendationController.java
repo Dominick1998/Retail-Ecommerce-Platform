@@ -5,6 +5,7 @@ GET /api/recommendations/{userId}/category/{category}: Fetch recommendations fil
 GET /api/recommendations/trending: Fetch globally trending products.
 */
 
+
 package com.example.ecommerce.controller;
 
 import com.example.ecommerce.model.Feedback;
