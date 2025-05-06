@@ -222,4 +222,3 @@ This project is licensed under the [MIT License](LICENSE).
 - Full Admin Analytics dashboard using Chart.js.
 
 ---
-
