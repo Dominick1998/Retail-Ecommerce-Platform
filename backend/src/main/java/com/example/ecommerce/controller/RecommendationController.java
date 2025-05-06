@@ -5,7 +5,6 @@ GET /api/recommendations/{userId}/category/{category}: Fetch recommendations fil
 GET /api/recommendations/trending: Fetch globally trending products.
 */
 
-
 package com.example.ecommerce.controller;
 
 import com.example.ecommerce.model.Feedback;
@@ -14,12 +13,17 @@ import com.example.ecommerce.model.Product;
 import com.example.ecommerce.repository.FeedbackRepository;
 import com.example.ecommerce.repository.OrderRepository;
 import com.example.ecommerce.repository.ProductRepository;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Tag(name = "Recommendations", description = "Personalized and trending product suggestions for users")
 @RestController
 @RequestMapping("/api/recommendations")
 public class RecommendationController {
@@ -33,7 +37,7 @@ public class RecommendationController {
     @Autowired
     private FeedbackRepository feedbackRepository;
 
-    // Get recommended products for a user
+    @Operation(summary = "Get personalized product recommendations for a user")
     @GetMapping("/{userId}")
     public List<Product> getRecommendations(@PathVariable String userId) {
         // Fetch user's order history
@@ -66,7 +70,7 @@ public class RecommendationController {
                 .collect(Collectors.toList());
     }
 
-    // Get recommended products for a user filtered by category
+    @Operation(summary = "Get product recommendations by category for a user")
     @GetMapping("/{userId}/category/{category}")
     public List<Product> getRecommendationsByCategory(
             @PathVariable String userId,
@@ -77,7 +81,7 @@ public class RecommendationController {
                 .collect(Collectors.toList());
     }
 
-    // Get trending products
+    @Operation(summary = "Get globally trending products based on purchase frequency")
     @GetMapping("/trending")
     public List<Product> getTrendingProducts() {
         // Calculate product popularity based on order frequency
