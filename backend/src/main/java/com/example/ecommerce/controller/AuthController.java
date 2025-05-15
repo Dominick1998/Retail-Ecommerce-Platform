@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,6 +33,9 @@ public class AuthController {
     @Autowired
     private RefreshTokenService refreshTokenService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Operation(summary = "Register a new user")
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody Map<String, String> userData) {
@@ -42,7 +46,9 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("User already exists");
         }
 
-        User newUser = new User(username, password, List.of("USER")); // Default role: USER
+        // Hash the password before saving
+        String encodedPassword = passwordEncoder.encode(password);
+        User newUser = new User(username, encodedPassword, List.of("USER")); // Default role: USER
         userRepository.save(newUser);
 
         return ResponseEntity.ok("User registered successfully");
@@ -56,7 +62,7 @@ public class AuthController {
 
         Optional<User> user = userRepository.findByUsername(username);
 
-        if (user.isPresent() && user.get().getPassword().equals(password)) {
+        if (user.isPresent() && passwordEncoder.matches(password, user.get().getPassword())) {
             String token = jwtUtil.generateToken(username, user.get().getRoles());
             RefreshToken refreshToken = refreshTokenService.createRefreshToken(username);
             return ResponseEntity.ok(Map.of(
