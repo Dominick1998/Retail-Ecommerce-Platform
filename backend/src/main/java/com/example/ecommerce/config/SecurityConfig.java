@@ -25,6 +25,9 @@ public class SecurityConfig {
             .anyRequest().authenticated()
             .and()
             .httpBasic();
+         .and()
+            .httpBasic(); // For simplicity — can be replaced by JWT Auth filter
+
         return http.build();
     }
 }
