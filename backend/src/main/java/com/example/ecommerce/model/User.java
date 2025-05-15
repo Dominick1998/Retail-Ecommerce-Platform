@@ -7,15 +7,18 @@ import java.util.List;
 
 @Document(collection = "users")
 public class User {
+
     @Id
     private String id;
+
     private String username;
     private String password;
-    private List<String> roles; // Supports multiple roles like "USER", "ADMIN"
+    private List<String> roles; // Example: ["USER"], ["ADMIN"], or both
 
-    // Constructors
+    // Default constructor
     public User() {}
 
+    // Constructor for quick initialization
     public User(String username, String password, List<String> roles) {
         this.username = username;
         this.password = password;
@@ -23,25 +26,44 @@ public class User {
     }
 
     // Getters and Setters
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    public String getId() {
+        return id;
+    }
 
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
+    public String getUsername() {
+        return username;
+    }
 
-    public List<String> getRoles() { return roles; }
-    public void setRoles(List<String> roles) { this.roles = roles; }
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-    // Utility Methods
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
+
+    // Role-checking convenience methods
     public boolean isAdmin() {
-        return roles.contains("ADMIN");
+        return roles != null && roles.contains("ADMIN");
     }
 
     public boolean isUser() {
-        return roles.contains("USER");
+        return roles != null && roles.contains("USER");
     }
-
 }
