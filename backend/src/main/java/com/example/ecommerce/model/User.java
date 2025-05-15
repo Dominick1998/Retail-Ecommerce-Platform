@@ -43,4 +43,10 @@ public class User {
     public boolean isUser() {
         return roles.contains("USER");
     }
+    public User(String username, String password, List<String> roles) {
+    this.username = username;
+    this.password = password;
+    this.roles = roles;
+}
+
 }
