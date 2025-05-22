@@ -36,6 +36,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     // Swagger/OpenAPI
     implementation 'org.springdoc:springdoc-openapi-ui:1.6.14'
+    
     implementation 'com.stripe:stripe-java:24.2.0'
 
 }
