@@ -41,7 +41,7 @@ dependencies {
 
 }
 
-// Configure the test task to use JUnit Platform, enabling JUnit 5 tests
+// Configure test task to use JUnit Platform, enabling JUnit 5 tests
 test {
     useJUnitPlatform()
 }
