@@ -1,0 +1,4 @@
+<h2>Checkout</h2>
+<button (click)="handleCheckout()" [disabled]="isLoading">
+  {{ isLoading ? 'Processing...' : 'Pay Now' }}
+</button>
