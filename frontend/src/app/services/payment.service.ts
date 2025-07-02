@@ -7,3 +7,10 @@ import { Observable } from 'rxjs';
 })
 export class PaymentService {
   private apiUrl = 'http://localhost:8080/api/payment';
+
+ constructor(private http: HttpClient) {}
+
+  createPaymentIntent(amount: number, currency: string = 'usd'): Observable<any> {
+    return this.http.post(`${this.apiUrl}/create-payment-intent`, { amount, currency });
+  }
+}
