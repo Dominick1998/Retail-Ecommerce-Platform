@@ -7,7 +7,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 
-// Import components as needed
+// Import Stripe Module
+import { StripeModule } from 'stripe-angular';
+
+// Import components
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/auth/login.component';
 import { RegisterComponent } from './components/auth/register.component';
@@ -16,7 +19,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AdminDashboardComponent } from './components/admin/admin-dashboard.component';
 import { UserManagementComponent } from './components/admin/user-management.component';
 import { AnalyticsDashboardComponent } from './components/admin/analytics-dashboard.component';
-
+import { CheckoutComponent } from './components/checkout/checkout.component';
 
 @NgModule({
   declarations: [
@@ -29,14 +32,14 @@ import { AnalyticsDashboardComponent } from './components/admin/analytics-dashbo
     AdminDashboardComponent,
     UserManagementComponent,
     AnalyticsDashboardComponent,
-    // Add other components here as needed
+    CheckoutComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
-    // Add other modules here if used (e.g., ReactiveFormsModule)
+    FormsModule,
+    StripeModule.forRoot('pk_test_YOUR_PUBLIC_KEY') // Replace with your real Stripe public key
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
