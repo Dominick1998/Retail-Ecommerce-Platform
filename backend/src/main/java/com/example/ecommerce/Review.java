@@ -12,7 +12,7 @@ public class Review {
     private String comment;
     private int rating;
 
-    // Getters and Setters
+    // getters and setters
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
     public String getProductId() { return productId; }
