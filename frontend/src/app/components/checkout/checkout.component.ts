@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { loadStripe, Stripe } from '@stripe/stripe-js';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { StripeService, StripeCardComponent } from 'ngx-stripe';
+import {
+  StripeCardElementOptions,
+  StripeElementsOptions,
+} from '@stripe/stripe-js';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PaymentService } from '../../services/payment.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-checkout',
@@ -10,33 +13,68 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
   styleUrls: ['./checkout.component.scss']
 })
 export class CheckoutComponent implements OnInit {
-  stripe: Stripe | null = null;
-  clientSecret: string = '';
+  @ViewChild(StripeCardComponent) card!: StripeCardComponent;
+
+  stripeForm!: FormGroup;
   isLoading = false;
+  successMessage = '';
+  errorMessage = '';
 
- constructor(private paymentService: PaymentService) {}
+  cardOptions: StripeCardElementOptions = {
+    style: {
+      base: {
+        iconColor: '#666EE8',
+        color: '#31325F',
+        lineHeight: '40px',
+        fontWeight: 300,
+        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+        fontSize: '16px',
+        '::placeholder': {
+          color: '#CFD7E0'
+        }
+      }
+    }
+  };
 
-  async ngOnInit() {
-    this.stripe = await loadStripe('pk_test_YOUR_PUBLIC_KEY'); // Replace with your Stripe public key
+  elementsOptions: StripeElementsOptions = {
+    locale: 'auto'
+  };
+
+  constructor(
+    private stripeService: StripeService,
+    private fb: FormBuilder,
+    private paymentService: PaymentService
+  ) {}
+
+  ngOnInit(): void {
+    this.stripeForm = this.fb.group({
+      name: ['', [Validators.required]]
+    });
   }
 
-  handleCheckout() {
+  handleCheckout(): void {
     this.isLoading = true;
+    this.successMessage = '';
+    this.errorMessage = '';
 
-     this.paymentService.createPaymentIntent(2500).subscribe(async (response) => {
-      const result = await this.stripe?.confirmCardPayment(response.clientSecret, {
+    const name = this.stripeForm.get('name')?.value;
+
+    // Create payment intent (amount in cents)
+    this.paymentService.createPaymentIntent(2500).subscribe(response => {
+      this.stripeService.confirmCardPayment(response.clientSecret, {
         payment_method: {
-          card: { token: 'tok_visa' }  // For demo; replace with Stripe Elements in production
+          card: this.card.element,
+          billing_details: { name }
+        }
+      }).subscribe(result => {
+        this.isLoading = false;
+
+        if (result.error) {
+          this.errorMessage = result.error.message || 'Payment failed';
+        } else if (result.paymentIntent?.status === 'succeeded') {
+          this.successMessage = 'Payment successful!';
         }
       });
-
-      if (result?.paymentIntent?.status === 'succeeded') {
-        alert('Payment successful!');
-      } else {
-        alert('Payment failed!');
-      }
-
-      this.isLoading = false;
     });
   }
 }
