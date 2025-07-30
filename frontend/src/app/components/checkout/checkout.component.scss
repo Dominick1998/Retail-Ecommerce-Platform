@@ -6,13 +6,12 @@
   border-radius: 8px;
   background: #f9f9f9;
 
-     label {
+  label {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: bold;
   }
 
-    
   input, #card-element {
     width: 100%;
     margin-bottom: 1rem;
@@ -21,7 +20,7 @@
     border: 1px solid #ddd;
   }
 
-      button {
+  button {
     padding: 0.75rem 1.5rem;
     background-color: #007bff;
     color: #fff;
@@ -29,3 +28,14 @@
     border-radius: 4px;
     cursor: pointer;
   }
+
+  .success-message {
+    margin-top: 1rem;
+    color: green;
+  }
+
+  .error-message {
+    margin-top: 1rem;
+    color: red;
+  }
+}
