@@ -19,3 +19,7 @@
     {{ isLoading ? 'Processing...' : 'Pay Now' }}
   </button>
 </form>
+
+<div class="alert alert-success mt-3" *ngIf="successMessage">
+  {{ successMessage }}
+</div>
