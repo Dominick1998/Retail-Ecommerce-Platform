@@ -10,3 +10,12 @@
       [elementsOptions]="elementsOptions"
     ></ngx-stripe-card>
   </div>
+
+ <button
+    type="submit"
+    [disabled]="isLoading || stripeForm.invalid"
+    class="btn btn-primary"
+  >
+    {{ isLoading ? 'Processing...' : 'Pay Now' }}
+  </button>
+</form>
