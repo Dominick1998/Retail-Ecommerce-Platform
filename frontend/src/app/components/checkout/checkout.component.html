@@ -1,9 +1,19 @@
 <h2>Checkout</h2>
-<button (click)="handleCheckout()" [disabled]="isLoading">
-  {{ isLoading ? 'Processing...' : 'Pay Now' }}
-</button>
 
- <div class="form-group">
+<form [formGroup]="stripeForm" (ngSubmit)="handleCheckout()">
+  <div class="form-group">
+    <label for="name">Name on Card</label>
+    <input
+      id="name"
+      type="text"
+      formControlName="name"
+      class="form-control"
+      placeholder="John Doe"
+      required
+    />
+  </div>
+
+  <div class="form-group">
     <label>Card Information</label>
     <ngx-stripe-card
       [options]="cardOptions"
@@ -11,7 +21,7 @@
     ></ngx-stripe-card>
   </div>
 
- <button
+  <button
     type="submit"
     [disabled]="isLoading || stripeForm.invalid"
     class="btn btn-primary"
