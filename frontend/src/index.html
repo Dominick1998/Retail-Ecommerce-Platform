@@ -1,17 +1,35 @@
 <!-- This is a comment in HTML -->
-
+<!-- Google Tag Manager Script -->
 <script>
   (function(w, d, s, l, i) {
+    // Ensure the dataLayer array exists
     w[l] = w[l] || [];
+
+    // Push an event to the dataLayer indicating GTM script start time
     w[l].push({
       'gtm.start': new Date().getTime(),
       event: 'gtm.js'
     });
+
+    // Get the first script tag in the document
     var f = d.getElementsByTagName(s)[0],
-      j = d.createElement(s),
-      dl = l != 'dataLayer' ? '&l=' + l : '';
+
+        // Create a new script element for loading GTM
+        j = d.createElement(s),
+
+        // If the dataLayer name is not 'dataLayer', append it to the GTM URL
+        dl = l != 'dataLayer' ? '&l=' + l : '';
+
+    // Load the GTM script asynchronously so it doesn't block rendering
     j.async = true;
+
+    // Set the GTM script source with your container ID
     j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+
+    // Insert the GTM script before the first script tag in the document
     f.parentNode.insertBefore(j, f);
+
+  // Parameters: window, document, script tag name, dataLayer name, GTM container ID
   })(window, document, 'script', 'dataLayer', 'GTM-XXXX');
 </script>
+<!-- End Google Tag Manager Script -->
