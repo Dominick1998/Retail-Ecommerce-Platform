@@ -5,11 +5,3 @@
     "description": "A sample product for the e-commerce platform."
   }
 ]
-
-[
-  {
-  "name":"Sample Product" 
-  "price": 29.99,
-  "description": "product sample."
-  }
-]
