@@ -9,6 +9,7 @@
 [
 {
   "name":"Sample Product" 
-  "price": 29.99
+  "price": 29.99,
+  "description": 
 }
 ]
