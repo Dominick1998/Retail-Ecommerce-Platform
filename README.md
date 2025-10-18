@@ -220,4 +220,4 @@ This project is licensed under the [MIT License](LICENSE).
 - Role-based multi-language (i18n) support.
 - Full Admin Analytics dashboard using Chart.js.
 
----
+--- 
