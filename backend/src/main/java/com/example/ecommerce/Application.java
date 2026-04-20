@@ -1,5 +1,5 @@
 // Framework-SpringApp
-// 
+
 package com.example.ecommerce;
 
 import org.springframework.boot.SpringApplication;
